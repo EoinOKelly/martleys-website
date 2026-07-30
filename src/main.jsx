@@ -6,6 +6,7 @@ import roadImage from './assets/martleys-road-live.jpg';
 import coachDetailImage from './assets/martleys-detail-live.jpg';
 import passengerImage from './assets/martleys-passengers-live.png';
 import countrysideCoachImage from './assets/martleys-hero-concept.png';
+import martleysLogo from './assets/martleys-logo.png';
 
 const routes = [
   ['821', 'Newbridge — Sallins Rail Station'], ['834', 'Portlaoise — Roscrea'], ['880', 'Carlow — Naas'],
@@ -15,7 +16,9 @@ const routes = [
 function Arrow() { return <span className="arrow" aria-hidden="true">→</span>; }
 
 function Mark({ light = false }) {
-  return <a className={`mark ${light ? 'mark--light' : ''}`} href="#top" aria-label="Martley's home"><strong>Martley’s</strong><span>Portlaoise · Coach Hire</span></a>;
+  return <a className={`mark ${light ? 'mark--light' : ''}`} href="#top" aria-label="Martley's home">
+    {light ? <><strong>Martley’s</strong><span>Portlaoise · Coach Hire</span></> : <img className="mark__logo" src={martleysLogo} alt="Martley's" />}
+  </a>;
 }
 
 function Reveal({ children, className = '', delay = 0 }) {
