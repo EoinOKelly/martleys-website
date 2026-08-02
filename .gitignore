@@ -21,3 +21,6 @@ pnpm-debug.log*
 .idea/
 .vscode/
 *.swp
+
+# Local working previews
+.pdf-preview/
