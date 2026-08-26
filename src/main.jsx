@@ -127,6 +127,20 @@ function App() {
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen, quoteOpen]);
 
+  useEffect(() => {
+    if (!menuOpen && !quoteOpen) return undefined;
+
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        setQuoteOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [menuOpen, quoteOpen]);
+
   return (
     <>
       {activeEventNotice.enabled && (
@@ -531,7 +545,13 @@ function App() {
             <form
               onSubmit={(event) => {
                 event.preventDefault();
+                const data = new FormData(event.currentTarget);
+                const subject = encodeURIComponent(`Website enquiry: ${journey}`);
+                const body = encodeURIComponent(
+                  `Journey type: ${journey}\nName: ${data.get('name')}\nEmail: ${data.get('email')}\n\nJourney details:\n${data.get('details')}`,
+                );
                 setQuoteOpen(false);
+                window.location.href = `mailto:info@martleys.com?subject=${subject}&body=${body}`;
               }}
             >
               <label>
@@ -547,17 +567,17 @@ function App() {
               </label>
               <label>
                 Your name
-                <input required placeholder="Name" />
+                <input name="name" required autoComplete="name" placeholder="Name" />
               </label>
               <label>
                 Email address
-                <input required type="email" placeholder="you@example.com" />
+                <input name="email" required type="email" autoComplete="email" placeholder="you@example.com" />
               </label>
               <label>
                 Tell us about the journey
-                <textarea required rows="3" placeholder="Dates, group size, destination…" />
+                <textarea name="details" required rows="3" placeholder="Dates, group size, destination…" />
               </label>
-              <button className="button" type="submit">Send enquiry <Arrow /></button>
+              <button className="button" type="submit">Continue by email <Arrow /></button>
             </form>
           </section>
         </div>
