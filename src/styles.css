@@ -483,6 +483,9 @@ h2,
   line-height: .95;
   letter-spacing: -.02em;
 }
+.school__reasons .review-grid {
+  margin-top: 48px;
+}
 .reason-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
