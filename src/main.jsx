@@ -19,11 +19,11 @@ const routes = [
 ];
 
 const services = [
-  { title: 'School transport', copy: 'Daily school runs, tours and outings—safe, licensed and familiar.', image: roadImage, pos: 'center 58%', href: '#school' },
-  { title: 'College commute', copy: 'Reliable campus travel including Athlone, Carlow and Dublin.', image: passengerImage, pos: '50% center', href: '#school' },
-  { title: 'Public routes', copy: 'Comfortable local connections across Laois and Kildare.', image: countrysideCoachImage, pos: 'center', href: '#routes' },
-  { title: 'Private hire', copy: 'Your group, your plan—from two seats to a full coach.', image: coachImage, pos: 'center', href: '#private' },
-  { title: 'Sports travel', copy: 'Club trips, match days and tournaments kept simple.', image: coachDetailImage, pos: '60% center', href: '#private' },
+  { title: 'School transport', copy: 'Safe, trusted daily school runs around Portlaoise and Mountrath.', image: roadImage, pos: 'center 58%', href: '#school' },
+  { title: 'College commute', copy: 'Reliable travel to Carlow colleges for students and commuters.', image: passengerImage, pos: '50% center', href: '#college' },
+  { title: 'Tours', copy: 'Tours within Ireland, or travel with us to Europe and the UK.', image: coachDetailImage, pos: '60% center', href: '#tours' },
+  { title: 'Public routes', copy: 'Comfortable local connections in partnership with NTA and TFI Local Link.', image: countrysideCoachImage, pos: 'center', href: '#routes' },
+  { title: 'Private hire', copy: 'Your group, your plan—from minibuses to a full coach.', image: coachImage, pos: 'center', href: '#private' },
   { title: 'Concerts & events', copy: 'Easy rides to Aviva, Croke Park, 3Arena and more.', image: passengerImage, pos: '70% center', href: 'https://martleys.com/festivals-concerts/' },
   { title: 'Festival shuttles', copy: 'To and from Electric Picnic, Forest Fest and local festivals.', image: countrysideCoachImage, pos: '70% center', href: 'https://martleys.com/festivals-concerts/' },
   { title: 'Accessible travel', copy: 'Wheelchair-adapted coaches so more people can go further.', image: interiorImage, pos: 'center', href: 'https://martleys.com/accessible-transport/' },
@@ -33,13 +33,14 @@ const facilities = [
   'Fully air-conditioned',
   'Free Wi‑Fi on selected coaches',
   'Wheelchair access',
+  'Device charging points',
   'Seat belts across the fleet',
   '16–63 seat options',
-  'Experienced local drivers',
+  'Fully RSA compliant buses and drivers',
 ];
 
 const hireTypes = [
-  ['Weddings', 'Guest transport, timed with care'],
+  ['Weddings & special occasions', 'Guest transport for weddings, gatherings and special events, timed with care.'],
   ['Corporate', 'Meetings, conferences and airport transfers'],
   ['Sports clubs', 'Away days and tournament weekends'],
   ['Hen & stag', 'Group travel without the stress'],
@@ -48,8 +49,15 @@ const hireTypes = [
 const reviews = [
   { quote: 'Martley’s are punctual, reliable, efficient, competitive and most importantly of all safe.', name: 'Gaelscoil Phortlaoise' },
   { quote: 'Professional drivers, spotless coaches and a team that actually answers the phone. Exactly what you want for school and private hire.', name: 'Local parent, Portlaoise' },
-  { quote: 'We use Martley’s for club travel every season. Straightforward booking and the journey is always comfortable.', name: 'Sports club organiser' },
 ];
+
+// Switch this off, or update its copy and link, between major events.
+const activeEventNotice = {
+  enabled: true,
+  label: 'Festival travel',
+  message: 'Electric Picnic and Forest Fest travel updates',
+  href: '#travel-updates',
+};
 
 function Arrow() {
   return <span className="arrow" aria-hidden="true">→</span>;
@@ -121,8 +129,17 @@ function App() {
 
   return (
     <>
+      {activeEventNotice.enabled && (
+        <div className="notice notice--event">
+          <div className="shell notice__inside">
+            <span><strong>{activeEventNotice.label}:</strong> {activeEventNotice.message}</span>
+            <a href={activeEventNotice.href}>View travel updates <Arrow /></a>
+          </div>
+        </div>
+      )}
       <div className="notice">
         <div className="shell notice__inside">
+          <strong>Highlights</strong>
           <span>School registrations for the new term are now open.</span>
           <a href="https://martleys.com/schools-colleges/">Register now <Arrow /></a>
         </div>
@@ -134,7 +151,7 @@ function App() {
           <nav className="nav" aria-label="Primary navigation">
             <a href="#services">Services</a>
             <a href="#school">Schools &amp; colleges</a>
-            <a href="#routes">Routes</a>
+            <a href="#routes">Public routes</a>
             <a href="#fleet">Fleet</a>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
@@ -167,13 +184,21 @@ function App() {
               <button type="button" className="drawer__close" onClick={closeMenu} aria-label="Close menu">×</button>
             </div>
             <div className="drawer__links">
-              <a href="#services" onClick={closeMenu}>Services</a>
-              <a href="#school" onClick={closeMenu}>Schools &amp; colleges</a>
-              <a href="#routes" onClick={closeMenu}>Public service routes</a>
-              <a href="#private" onClick={closeMenu}>Private hire</a>
+              <details className="drawer__services">
+                <summary>Services</summary>
+                <div className="drawer__service-links">
+                  <a href="#school" onClick={closeMenu}>School transport</a>
+                  <a href="#college" onClick={closeMenu}>College commute</a>
+                  <a href="#tours" onClick={closeMenu}>Tours</a>
+                  <a href="#routes" onClick={closeMenu}>Public routes</a>
+                  <a href="#private" onClick={closeMenu}>Private hire</a>
+                  <a href="https://martleys.com/festivals-concerts/" onClick={closeMenu}>Concerts &amp; events</a>
+                  <a href="https://martleys.com/accessible-transport/" onClick={closeMenu}>Accessible transport</a>
+                </div>
+              </details>
               <a href="#fleet" onClick={closeMenu}>Our fleet</a>
               <a href="#about" onClick={closeMenu}>About</a>
-              <a href="https://martleys.com/accessible-transport/" onClick={closeMenu}>Accessible transport</a>
+              <a href="#travel-updates" onClick={closeMenu}>Travel updates</a>
               <a href="https://martleys.com/tickets/" onClick={closeMenu}>Buy tickets</a>
               <a href="#contact" onClick={closeMenu}>Contact</a>
             </div>
@@ -191,10 +216,11 @@ function App() {
             <div className="hero__copy">
               <p className="hero__brand">Martley’s of Portlaoise</p>
               <h1>Reliable coaches.<br /><em>Friendly service.</em></h1>
-              <p className="hero__lead">Family-run transport for the Midlands—punctual, clean and dependable for over 60 years.</p>
+              <p className="hero__lead">The trusted local travel partner for the Midlands and beyond.</p>
               <div className="hero__actions">
-                <button className="button button--sky" onClick={() => openQuote('Private hire')}>Plan a journey <Arrow /></button>
+                <a className="button button--sky" href="https://martleys.com/tickets/">All tickets <Arrow /></a>
                 <a className="hero__text-action" href="https://martleys.com/tickets/">Buy school tickets <Arrow /></a>
+                <a className="hero__text-action" href="https://martleys.com/tickets/">Buy college commute tickets <Arrow /></a>
               </div>
             </div>
           </div>
@@ -208,7 +234,7 @@ function App() {
           <div className="shell intro__grid">
             <Reveal>
               <p className="eyebrow eyebrow--blue">Welcome</p>
-              <h2>The premium local partner for Midlands travel.</h2>
+              <h2>The trusted local travel partner for the Midlands and beyond.</h2>
             </Reveal>
             <Reveal delay={80}>
               <p>
@@ -225,14 +251,14 @@ function App() {
             <Reveal className="services__intro">
               <div>
                 <p className="eyebrow">What we do</p>
-                <h2>Every kind of journey,<br />handled properly.</h2>
+                <h2>Every kind of journey,<br />handled with care.</h2>
               </div>
-              <p>School mornings, college terms, match days, weddings and weekend festivals—choose the service that fits, then leave the road to us.</p>
+              <p>School mornings, daily commutes, tours, match days, celebrations and weekend festivals. Choose the service that fits, then leave the road to us.</p>
             </Reveal>
             <div className="service-grid">
               {services.map((service, index) => (
                 <Reveal key={service.title} delay={index * 45} className="service-tile">
-                  <a href={service.href}>
+                  <a id={service.title === 'Tours' ? 'tours' : undefined} href={service.href}>
                     <img src={service.image} alt="" style={{ objectPosition: service.pos }} />
                     <span className="service-tile__shade" />
                     <span className="service-tile__content">
@@ -252,17 +278,20 @@ function App() {
               <img src={roadImage} alt="A Martley's coach travelling across the Midlands" />
             </Reveal>
             <Reveal className="school__copy" delay={90}>
-              <p className="eyebrow eyebrow--blue">Schools &amp; colleges</p>
+              <p className="eyebrow eyebrow--blue">School transport</p>
               <h2>Every school day starts <em>well.</em></h2>
               <p>
-                For generations of local families, Martley’s has made the school journey safer, calmer and more reliable—
-                with college services for Athlone, Carlow, Dublin and more.
+                For generations, local families and schools have trusted Martley’s to transport their children safely. We operate daily school runs around Portlaoise and Mountrath, and work directly with teachers and coordinators to tailor transport for school tours and outings, giving parents, teachers and students peace of mind, every day.
               </p>
               <ul>
+                <li>All Portlaoise schools and Mountrath Community School</li>
+                <li>School runs serving all Portlaoise housing estates</li>
                 <li>Licensed National Transport Authority school services</li>
-                <li>Garda-vetted drivers and selected bus escorts</li>
-                <li>Daily, weekly and annual ticket options</li>
-                <li>Young Adult Card half-price student travel</li>
+                <li>Fully RSA compliant buses and drivers</li>
+                <li>Garda-vetted drivers and escorts</li>
+                <li>Comfortable, clean and regularly serviced vehicles</li>
+                <li>Seatbelts across the fleet</li>
+                <li>Daily, weekly, term and annual ticket options, with sibling discounts</li>
               </ul>
               <div className="school__actions">
                 <a className="button" href="https://martleys.com/schools-colleges/">Register a student <Arrow /></a>
@@ -273,22 +302,41 @@ function App() {
           <div className="shell school__reasons">
             <Reveal>
               <p className="eyebrow eyebrow--blue">Why families choose us</p>
-              <h3>Five reasons we’re the first choice for school transport.</h3>
+              <h3>Trusted by schools and parents across the Midlands.</h3>
             </Reveal>
-            <div className="reason-list">
-              {[
-                'Family business, serving the Midlands for 60+ years',
-                'Unblemished safety record',
-                'Largest school bus provider in Portlaoise',
-                'All school drivers Garda-vetted',
-                'Fully RSA compliant buses and drivers',
-              ].map((item, index) => (
-                <Reveal key={item} delay={index * 40} className="reason-item">
-                  <strong>{String(index + 1).padStart(2, '0')}</strong>
-                  <span>{item}</span>
+            <div className="review-grid">
+              {reviews.map((review, index) => (
+                <Reveal key={review.name} delay={index * 70} className="review">
+                  <div className="review__stars" aria-label="5 star review">★★★★★</div>
+                  <blockquote>“{review.quote}”</blockquote>
+                  <cite>{review.name}</cite>
                 </Reveal>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section id="college" className="school">
+          <div className="shell school__grid">
+            <Reveal className="school__image">
+              <img src={passengerImage} alt="Passengers travelling comfortably with Martley's" />
+            </Reveal>
+            <Reveal className="school__copy" delay={90}>
+              <p className="eyebrow eyebrow--blue">College commute</p>
+              <h2>A better start to <em>your day.</em></h2>
+              <p>We provide a comfortable, reliable and affordable daily commuter service to South East Technological University (SETU), Carlow Institute (CIT) and Carlow College St Patrick’s, with convenient pick-up and drop-off points to suit your schedule. Designed with students and commuters in mind, our service makes the journey stress-free.</p>
+              <ul>
+                <li>50% off for Young Adult Leap Card (YAC) holders</li>
+                <li>Single, return and weekly ticket options</li>
+                <li>Fully RSA compliant buses and drivers</li>
+                <li>Comfortable, clean and regularly serviced vehicles</li>
+              </ul>
+              <div className="school__actions">
+                <a className="button" href="https://martleys.com/schools-colleges/">View timetable <Arrow /></a>
+                <a className="inline-link" href="https://martleys.com/schools-colleges/">Register a student <Arrow /></a>
+                <a className="inline-link" href="https://martleys.com/tickets/">Buy college commute tickets <Arrow /></a>
+              </div>
+            </Reveal>
           </div>
         </section>
 
@@ -297,7 +345,7 @@ function App() {
             <Reveal>
               <p className="eyebrow eyebrow--blue">Public service routes</p>
               <h2>Right on<br />your route.</h2>
-              <p>Comfortable connections for work, education, appointments and days out across Laois and Kildare.</p>
+              <p>We proudly operate a network of public service routes in partnership with the National Transport Authority (NTA) and TFI Local Link.</p>
               <a className="button button--outline" href="https://martleys.com/public-service-routes/">See all timetables <Arrow /></a>
             </Reveal>
             <Reveal className="route-board" delay={90}>
@@ -317,8 +365,8 @@ function App() {
           <div className="shell fleet__top">
             <Reveal>
               <p className="eyebrow">Our fleet</p>
-              <h2>Comfort that keeps<br />the day moving.</h2>
-              <p>A well-maintained range of coaches and minibuses, supported by an experienced maintenance team—and driven only by capable, responsible drivers.</p>
+              <h2>A bus for everyone,<br />however you travel.</h2>
+              <p>Clean, comfortable and well maintained—whatever the occasion, we’ve got a vehicle that fits. From cosy minibuses for small groups to spacious premium coaches for bigger crowds, along with specially adapted wheelchair-accessible buses carrying up to 11 wheelchair passengers each, everyone can travel together.</p>
             </Reveal>
             <Reveal className="fleet__facilities" delay={80}>
               <p>Onboard facilities</p>
@@ -397,42 +445,28 @@ function App() {
           <div className="shell about__body">
             <Reveal>
               <p className="eyebrow eyebrow--blue">Our story</p>
-              <h3>Run by the Martley family—with a team that knows the roads.</h3>
+              <h3>Proudly local, proudly family run—but it’s our team that gets you there.</h3>
             </Reveal>
             <Reveal delay={80}>
               <p>
-                Martley’s of Portlaoise is managed by the Martley family with the help of efficient, experienced staff.
-                We pride ourselves on service, punctuality, cleanliness and reliability—and every coach is kept in top condition
-                by our in-house maintenance team.
+                Martley’s is a family business at heart, but it’s our team that makes every journey happen. Experienced drivers know the roads and routes inside out. Skilled mechanics keep every coach in top condition, day in and day out. Friendly staff are on the other end of the phone, ready to answer your questions.
               </p>
               <p>
-                Whether it’s a daily school run or a once-in-a-lifetime celebration, we treat the journey with the same care:
-                safe vehicles, trusted drivers, and a local team you can talk to.
+                Whether it’s a daily school run or a once-in-a-lifetime celebration, that team treats every journey with the same care: safe vehicles, trusted drivers, and people who know exactly what they’re doing.
               </p>
             </Reveal>
           </div>
         </section>
 
-        <section className="trust">
-          <div className="shell">
-            <Reveal className="trust__intro">
-              <p className="eyebrow">What people say</p>
-              <h2>Trusted by schools,<br />families and groups.</h2>
+        <section id="travel-updates" className="intro">
+          <div className="shell intro__grid">
+            <Reveal>
+              <p className="eyebrow eyebrow--blue">Travel updates</p>
+              <h2>Concerts, festivals and service news.</h2>
             </Reveal>
-            <div className="review-grid">
-              {reviews.map((review, index) => (
-                <Reveal key={review.name} delay={index * 70} className="review">
-                  <div className="review__stars" aria-label="5 star review">★★★★★</div>
-                  <blockquote>“{review.quote}”</blockquote>
-                  <cite>{review.name}</cite>
-                </Reveal>
-              ))}
-            </div>
-            <Reveal className="trust__chips" delay={120}>
-              <span>Family-run</span>
-              <span>RSA compliant</span>
-              <span>Garda-vetted school drivers</span>
-              <span>NTA licensed services</span>
+            <Reveal delay={80}>
+              <p>Find ticket links, pickup points, times and important travel information for upcoming events.</p>
+              <a className="button" href="https://martleys.com/festivals-concerts/">View latest updates <Arrow /></a>
             </Reveal>
           </div>
         </section>
