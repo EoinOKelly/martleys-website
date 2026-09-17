@@ -4,8 +4,11 @@ import './styles.css';
 import roadImage from './assets/martleys-road-live.jpg';
 import coachDetailImage from './assets/martleys-detail-live.jpg';
 import passengerImage from './assets/martleys-passengers-live.png';
-import countrysideCoachImage from './assets/martleys-hero-concept.png';
+import concertsEventsImage from './assets/martleys-concerts-events.webp';
+import festivalShuttlesImage from './assets/martleys-festival-shuttles.webp';
+import countrysideCoachImage from './assets/martleys-hero.png';
 import interiorImage from './assets/martleys-interior-concept.png';
+import accessibleTravelImage from './assets/martleys-accessible-travel.jpg';
 import coachImage from './assets/martleys-coach-live.jpg';
 import martleysLogo from './assets/martleys-logo.png';
 
@@ -24,9 +27,9 @@ const services = [
   { title: 'Tours', copy: 'Tours within Ireland, or travel with us to Europe and the UK.', image: coachDetailImage, pos: '60% center', href: '#tours' },
   { title: 'Public routes', copy: 'Comfortable local connections in partnership with NTA and TFI Local Link.', image: countrysideCoachImage, pos: 'center', href: '#routes' },
   { title: 'Private hire', copy: 'Your group, your plan—from minibuses to a full coach.', image: coachImage, pos: 'center', href: '#private' },
-  { title: 'Concerts & events', copy: 'Easy rides to Aviva, Croke Park, 3Arena and more.', image: passengerImage, pos: '70% center', href: 'https://martleys.com/festivals-concerts/' },
-  { title: 'Festival shuttles', copy: 'To and from Electric Picnic, Forest Fest and local festivals.', image: countrysideCoachImage, pos: '70% center', href: 'https://martleys.com/festivals-concerts/' },
-  { title: 'Accessible travel', copy: 'Wheelchair-adapted coaches so more people can go further.', image: interiorImage, pos: 'center', href: 'https://martleys.com/accessible-transport/' },
+  { title: 'Concerts & events', copy: 'Easy rides to Aviva, Croke Park, 3Arena and more.', image: concertsEventsImage, pos: '60% center', href: 'https://martleys.com/festivals-concerts/' },
+  { title: 'Festival shuttles', copy: 'To and from Electric Picnic, Forest Fest and local festivals.', image: festivalShuttlesImage, pos: '80% center', href: 'https://martleys.com/festivals-concerts/' },
+  { title: 'Accessible travel', copy: 'Wheelchair-adapted coaches so more people can go further.', image: accessibleTravelImage, pos: 'center', href: 'https://martleys.com/accessible-transport/' },
 ];
 
 const facilities = [
@@ -47,8 +50,30 @@ const hireTypes = [
 ];
 
 const reviews = [
-  { quote: 'Martley’s are punctual, reliable, efficient, competitive and most importantly of all safe.', name: 'Gaelscoil Phortlaoise' },
-  { quote: 'Professional drivers, spotless coaches and a team that actually answers the phone. Exactly what you want for school and private hire.', name: 'Local parent, Portlaoise' },
+  {
+    quote: 'We booked Martleys for a late night event here, where we needed a shuttle service for corporate guests and friends from our countryside location. We wanted a little flexibility for time and were unsure of seat numbers. From our early conversations in arranging this we felt at ease in Martley’s hands. Our driver arrived early, fully prepared for the unknowns. He waited until the seats were filled and drove everyone to their preferred stop. It was a perfect ending to a great night here for all our guests. Huge thanks Martleys - you took away our concerns and serviced with a simile.',
+    name: 'Gillian Reidy, Director, Designer — Penhouse',
+  },
+  {
+    quote: 'HUGE THANK YOU for another fabulous EP experience with your service! Your driver truly is such a gem to work with, and so accommodating. Please pass on our gratitude for taking such great care of the group across the weekend! We had some new additions at the festival this year, and having such a reliable service made the experience seamless for everyone.',
+    name: 'Kaitlin Chandler, Sponsorship and Brand Activation Specialist — Three Ireland',
+  },
+  {
+    quote: 'On behalf of the Electric Picnic Residents Committee, I just wanted to say a massive thank you to everyone at Martley’s for your incredible help with our Residents’ Social Night. We had originally arranged two buses, but we were absolutely inundated with people on the night and quickly realised we needed another one. When we called looking for help, a third bus arrived within ten minutes, which was absolutely brilliant and very much appreciated. The whole night was a huge success, and having the buses available made such a difference. Your flexibility and willingness to help us at such short notice really helped everything run smoothly. Please pass on our thanks to everyone involved, particularly the drivers. We genuinely appreciate your support and everything you did to help make the night such a success. A massive thank you from all of us!',
+    name: 'Kellie Kearney, Public Relations Officer — Electric Picnic Residents Committee',
+  },
+  {
+    quote: 'Martleys buses provide an excellent friendly and reliable service. I could not recommend them enough.',
+    name: "St. Mary’s C.B.S. Portlaoise",
+  },
+  {
+    quote: 'We use Martleys of Portlaoise for all our school transportation needs. Martleys are punctual, reliable, efficient, competitive and most importantly of all safe.',
+    name: 'Gaelscoil Phortlaoise',
+  },
+  {
+    quote: 'Very professional, friendly drivers. Cater for weddings, stags, hens, private hire to corporate functions, festivals, concerts and the races. Highly recommend them. Give the office a shout if you’re planning a run!',
+    name: 'John Kearney · Google review · 5/5',
+  },
 ];
 
 // Switch this off, or update its copy and link, between major events.
@@ -98,6 +123,20 @@ function Reveal({ children, className = '', delay = 0 }) {
     <div ref={ref} style={{ '--reveal-delay': `${delay}ms` }} className={`reveal ${visible ? 'is-visible' : ''} ${className}`}>
       {children}
     </div>
+  );
+}
+
+function Review({ review }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <>
+      <blockquote className={expanded ? 'is-expanded' : ''}>“{review.quote}”</blockquote>
+      <button className="review__toggle" type="button" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>
+        {expanded ? 'Show less' : 'Read full story'}
+      </button>
+      <cite>{review.name}</cite>
+    </>
   );
 }
 
@@ -321,9 +360,7 @@ function App() {
             <div className="review-grid">
               {reviews.map((review, index) => (
                 <Reveal key={review.name} delay={index * 70} className="review">
-                  <div className="review__stars" aria-label="5 star review">★★★★★</div>
-                  <blockquote>“{review.quote}”</blockquote>
-                  <cite>{review.name}</cite>
+                  <Review review={review} />
                 </Reveal>
               ))}
             </div>

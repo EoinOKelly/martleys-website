@@ -783,24 +783,36 @@ h2,
 .review {
   display: grid;
   align-content: start;
-  gap: 14px;
+  gap: 12px;
   padding: 28px 24px;
   background: var(--white);
   border-top: 3px solid var(--blue);
 }
-.review__stars {
-  color: var(--blue-ink);
-  letter-spacing: .08em;
-  font-size: 13px;
-}
 .review blockquote {
   margin: 0;
   color: var(--navy);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(24px, 2.2vw, 30px);
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -.02em;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.65;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+.review blockquote.is-expanded {
+  display: block;
+}
+.review__toggle {
+  justify-self: start;
+  padding: 0;
+  color: var(--blue-ink);
+  background: transparent;
+  border: 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+.review__toggle:hover {
+  color: var(--navy);
 }
 .review cite {
   color: var(--muted);
