@@ -6,7 +6,7 @@ import coachDetailImage from './assets/martleys-detail-live.jpg';
 import passengerImage from './assets/martleys-passengers-live.png';
 import concertsEventsImage from './assets/martleys-concerts-events.webp';
 import festivalShuttlesImage from './assets/martleys-festival-shuttles.webp';
-import countrysideCoachImage from './assets/martleys-hero.png';
+import countrysideCoachImage from './assets/martleys-hero.webp';
 import interiorImage from './assets/martleys-interior-concept.png';
 import accessibleTravelImage from './assets/martleys-accessible-travel.jpg';
 import coachImage from './assets/martleys-coach-live.jpg';
