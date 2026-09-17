@@ -4,6 +4,7 @@ import './styles.css';
 import roadImage from './assets/martleys-road-live.jpg';
 import coachDetailImage from './assets/martleys-detail-live.jpg';
 import passengerImage from './assets/martleys-passengers-live.png';
+import collegeCommuteImage from './assets/martleys-college-commute.jpg';
 import concertsEventsImage from './assets/martleys-concerts-events.webp';
 import festivalShuttlesImage from './assets/martleys-festival-shuttles.webp';
 import countrysideCoachImage from './assets/martleys-hero.webp';
@@ -370,7 +371,7 @@ function App() {
         <section id="college" className="school">
           <div className="shell school__grid">
             <Reveal className="school__image">
-              <img src={passengerImage} alt="Passengers travelling comfortably with Martley's" />
+              <img src={collegeCommuteImage} alt="Martley’s driver at the wheel on a commuter journey" />
             </Reveal>
             <Reveal className="school__copy" delay={90}>
               <p className="eyebrow eyebrow--blue">College commute</p>
