@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
+import './ticket-shell.css';
+import TicketPage from './TicketPage';
 import roadImage from './assets/martleys-road-live.jpg';
 import coachDetailImage from './assets/martleys-detail-live.jpg';
 import passengerImage from './assets/martleys-passengers-live.png';
@@ -91,7 +93,7 @@ function Arrow() {
 
 function Mark({ light = false }) {
   return (
-    <a className={`mark ${light ? 'mark--light' : ''}`} href="#top" aria-label="Martley's home">
+    <a className={`mark ${light ? 'mark--light' : ''}`} href="/#top" aria-label="Martley's home">
       {light ? (
         <>
           <strong>Martley’s</strong>
@@ -104,27 +106,8 @@ function Mark({ light = false }) {
   );
 }
 
-function Reveal({ children, className = '', delay = 0 }) {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const node = ref.current;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setVisible(true);
-        observer.unobserve(node);
-      }
-    }, { threshold: 0.16 });
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div ref={ref} style={{ '--reveal-delay': `${delay}ms` }} className={`reveal ${visible ? 'is-visible' : ''} ${className}`}>
-      {children}
-    </div>
-  );
+function Reveal({ children, className = '' }) {
+  return <div className={`reveal is-visible ${className}`}>{children}</div>;
 }
 
 function Review({ review }) {
@@ -141,11 +124,30 @@ function Review({ review }) {
   );
 }
 
+function containDialogFocus(event) {
+  if (event.key !== 'Tab') return;
+  const controls = [...event.currentTarget.querySelectorAll('a[href], button:not(:disabled), input:not(:disabled), select, textarea, summary')]
+    .filter((element) => element.getClientRects().length > 0);
+  const first = controls[0];
+  const last = controls[controls.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last?.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first?.focus();
+  }
+}
+
 function App() {
+  const isTicketPage = /^\/tickets\/?$/.test(window.location.pathname);
+  const homeLink = (anchor) => isTicketPage ? `/${anchor}` : anchor;
   const [menuOpen, setMenuOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
   const [journey, setJourney] = useState('Private hire');
   const [fleetIndex, setFleetIndex] = useState(0);
+  const menuDialog = useRef(null);
+  const quoteDialog = useRef(null);
 
   const fleetImages = [
     { src: countrysideCoachImage, alt: 'Martley’s coach on a countryside road', label: 'Full-size coaches' },
@@ -168,21 +170,16 @@ function App() {
   }, [menuOpen, quoteOpen]);
 
   useEffect(() => {
-    if (!menuOpen && !quoteOpen) return undefined;
-
-    const closeOnEscape = (event) => {
-      if (event.key === 'Escape') {
-        setMenuOpen(false);
-        setQuoteOpen(false);
-      }
-    };
-
-    document.addEventListener('keydown', closeOnEscape);
-    return () => document.removeEventListener('keydown', closeOnEscape);
+    for (const [dialog, open] of [[menuDialog.current, menuOpen], [quoteDialog.current, quoteOpen]]) {
+      if (open && !dialog.open) dialog.showModal();
+      if (!open && dialog.open) dialog.close();
+    }
   }, [menuOpen, quoteOpen]);
 
   return (
-    <>
+    <div className={isTicketPage ? 'ticket-site' : undefined}>
+      <a className="skip-link" href="#top">Skip to main content</a>
+      {!isTicketPage && <>
       {activeEventNotice.enabled && (
         <div className="notice notice--event">
           <div className="shell notice__inside">
@@ -199,30 +196,34 @@ function App() {
         </div>
       </div>
 
-      <header className="header">
+      </>}
+
+      <header className={`header ${isTicketPage ? 'header--booking' : ''}`}>
         <div className="shell header__inside">
           <Mark />
           <nav className="nav" aria-label="Primary navigation">
-            <a href="#services">Services</a>
-            <a href="#school">Schools &amp; colleges</a>
-            <a href="#routes">Public routes</a>
-            <a href="#fleet">Fleet</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+            <a href={homeLink('#services')}>Services</a>
+            <a href={homeLink('#school')}>Schools &amp; colleges</a>
+            <a href={homeLink('#routes')}>Public routes</a>
+            {!isTicketPage && <a href={homeLink('#fleet')}>Fleet</a>}
+            <a href={homeLink('#about')}>About</a>
+            {!isTicketPage && <a href={homeLink('#contact')}>Contact</a>}
           </nav>
           <div className="header__actions">
             <a className="header__phone" href="tel:+353578620888">
               <small>Call us</small>
               057 862 0888
             </a>
-            <a className="header__tickets" href="https://martleys.com/tickets/">Buy tickets</a>
-            <button className="button button--compact" onClick={() => openQuote()}>Get a quote <Arrow /></button>
+            <a className="header__tickets" href="/tickets/" aria-current={isTicketPage ? 'page' : undefined}>Buy tickets</a>
+            <button className="button button--compact" onClick={() => openQuote()}>Get a quote {!isTicketPage && <Arrow />}</button>
           </div>
           <button
             className="menu-toggle"
             type="button"
             aria-label="Toggle navigation"
             aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            aria-haspopup="dialog"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <i /><i /><i />
@@ -230,39 +231,40 @@ function App() {
         </div>
       </header>
 
-      {menuOpen && (
-        <div className="drawer-backdrop" onClick={closeMenu}>
+      <dialog ref={menuDialog} id="mobile-navigation" className="drawer-backdrop"
+        onKeyDown={containDialogFocus}
+        aria-label="Site navigation" onCancel={(event) => { event.preventDefault(); closeMenu(); }}
+        onClose={closeMenu} onClick={(event) => { if (event.target === event.currentTarget) closeMenu(); }}>
           <nav className="drawer" aria-label="Mobile navigation" onClick={(event) => event.stopPropagation()}>
             <div className="drawer__top">
-              <Mark light />
+              <Mark light={!isTicketPage} />
               <button type="button" className="drawer__close" onClick={closeMenu} aria-label="Close menu">×</button>
             </div>
             <div className="drawer__links">
               <details className="drawer__services">
                 <summary>Services</summary>
                 <div className="drawer__service-links">
-                  <a href="#school" onClick={closeMenu}>School transport</a>
-                  <a href="#college" onClick={closeMenu}>College commute</a>
-                  <a href="#tours" onClick={closeMenu}>Tours</a>
-                  <a href="#routes" onClick={closeMenu}>Public routes</a>
-                  <a href="#private" onClick={closeMenu}>Private hire</a>
+                  <a href={homeLink('#school')} onClick={closeMenu}>School transport</a>
+                  <a href={homeLink('#college')} onClick={closeMenu}>College commute</a>
+                  <a href={homeLink('#tours')} onClick={closeMenu}>Tours</a>
+                  <a href={homeLink('#routes')} onClick={closeMenu}>Public routes</a>
+                  <a href={homeLink('#private')} onClick={closeMenu}>Private hire</a>
                   <a href="https://martleys.com/festivals-concerts/" onClick={closeMenu}>Concerts &amp; events</a>
                   <a href="https://martleys.com/accessible-transport/" onClick={closeMenu}>Accessible transport</a>
                 </div>
               </details>
-              <a href="#fleet" onClick={closeMenu}>Our fleet</a>
-              <a href="#about" onClick={closeMenu}>About</a>
-              <a href="#travel-updates" onClick={closeMenu}>Travel updates</a>
-              <a href="https://martleys.com/tickets/" onClick={closeMenu}>Buy tickets</a>
-              <a href="#contact" onClick={closeMenu}>Contact</a>
+              <a href={homeLink('#fleet')} onClick={closeMenu}>Our fleet</a>
+              <a href={homeLink('#about')} onClick={closeMenu}>About</a>
+              <a href={homeLink('#travel-updates')} onClick={closeMenu}>Travel updates</a>
+              <a href="/tickets/" onClick={closeMenu}>Buy tickets</a>
+              <a href={homeLink('#contact')} onClick={closeMenu}>Contact</a>
             </div>
             <button className="button button--sky" onClick={() => openQuote()}>Get a quote <Arrow /></button>
             <a className="drawer__phone" href="tel:+353578620888">057 862 0888</a>
           </nav>
-        </div>
-      )}
+      </dialog>
 
-      <main id="top">
+      {isTicketPage ? <TicketPage /> : <main id="top" tabIndex="-1">
         <section className="hero">
           <img className="hero__image" src={countrysideCoachImage} alt="A Martley's coach travelling through the Irish countryside" />
           <div className="hero__scrim" />
@@ -272,9 +274,9 @@ function App() {
               <h1>Reliable coaches.<br /><em>Friendly service.</em></h1>
               <p className="hero__lead">The trusted local travel partner for the Midlands and beyond.</p>
               <div className="hero__actions">
-                <a className="button button--sky" href="https://martleys.com/tickets/">All tickets <Arrow /></a>
-                <a className="hero__text-action" href="https://martleys.com/tickets/">Buy school tickets <Arrow /></a>
-                <a className="hero__text-action" href="https://martleys.com/tickets/">Buy college commute tickets <Arrow /></a>
+                <a className="button button--sky" href="/tickets/">All tickets <Arrow /></a>
+                <a className="hero__text-action" href="/tickets/?service=school">Buy school tickets <Arrow /></a>
+                <a className="hero__text-action" href="/tickets/?service=college">Buy college commute tickets <Arrow /></a>
               </div>
             </div>
           </div>
@@ -313,7 +315,7 @@ function App() {
               {services.map((service, index) => (
                 <Reveal key={service.title} delay={index * 45} className="service-tile">
                   <a id={service.title === 'Tours' ? 'tours' : undefined} href={service.href}>
-                    <img src={service.image} alt="" style={{ objectPosition: service.pos }} />
+                    <img src={service.image} loading="lazy" alt="" style={{ objectPosition: service.pos }} />
                     <span className="service-tile__shade" />
                     <span className="service-tile__content">
                       <strong>{service.title}</strong>
@@ -349,7 +351,7 @@ function App() {
               </ul>
               <div className="school__actions">
                 <a className="button" href="https://martleys.com/schools-colleges/">Register a student <Arrow /></a>
-                <a className="inline-link" href="https://martleys.com/tickets/">Buy school tickets <Arrow /></a>
+                <a className="inline-link" href="/tickets/?service=school">Buy school tickets <Arrow /></a>
               </div>
             </Reveal>
           </div>
@@ -386,7 +388,7 @@ function App() {
               <div className="school__actions">
                 <a className="button" href="https://martleys.com/schools-colleges/">View timetable <Arrow /></a>
                 <a className="inline-link" href="https://martleys.com/schools-colleges/">Register a student <Arrow /></a>
-                <a className="inline-link" href="https://martleys.com/tickets/">Buy college commute tickets <Arrow /></a>
+                <a className="inline-link" href="/tickets/?service=college">Buy college commute tickets <Arrow /></a>
               </div>
             </Reveal>
           </div>
@@ -536,13 +538,13 @@ function App() {
             </Reveal>
           </div>
         </section>
-      </main>
+      </main>}
 
       <footer className="footer">
         <div className="shell footer__grid">
           <div className="footer__brand">
             <Mark light />
-            <p>A large range of excellently maintained buses and coaches, driven by experienced, capable and responsible drivers.</p>
+            <p>{isTicketPage ? 'Family-run coach travel from Portlaoise. Familiar roads, experienced drivers and a welcome on board.' : 'A large range of excellently maintained buses and coaches, driven by experienced, capable and responsible drivers.'}</p>
           </div>
           <div>
             <p>Contact</p>
@@ -555,7 +557,7 @@ function App() {
           </div>
           <div>
             <p>Explore</p>
-            <a href="https://martleys.com/tickets/">Buy tickets</a>
+            <a href="/tickets/">Buy tickets</a>
             <a href="https://martleys.com/public-service-routes/">Timetables</a>
             <a href="https://martleys.com/schools-colleges/">Schools &amp; colleges</a>
             <a href="https://martleys.com/accessible-transport/">Accessible transport</a>
@@ -567,15 +569,15 @@ function App() {
         </div>
       </footer>
 
-      {quoteOpen && (
-        <div className="modal-backdrop" role="presentation" onMouseDown={() => setQuoteOpen(false)}>
-          <section
-            className="quote-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="quote-title"
-            onMouseDown={(event) => event.stopPropagation()}
-          >
+      <dialog ref={quoteDialog} className="quote-modal" aria-labelledby="quote-title"
+        onKeyDown={containDialogFocus}
+        onCancel={(event) => { event.preventDefault(); setQuoteOpen(false); }}
+        onClose={() => setQuoteOpen(false)}
+        onClick={(event) => { if (event.target === event.currentTarget) {
+          const bounds = event.currentTarget.getBoundingClientRect();
+          if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) setQuoteOpen(false);
+        } }}>
+          <section>
             <button className="modal-close" onClick={() => setQuoteOpen(false)} aria-label="Close quote form">×</button>
             <p className="eyebrow eyebrow--blue">Request a quote</p>
             <h2 id="quote-title">Let’s plan your journey.</h2>
@@ -605,7 +607,7 @@ function App() {
               </label>
               <label>
                 Your name
-                <input name="name" required autoComplete="name" placeholder="Name" />
+                <input name="name" required autoComplete="name" autoFocus placeholder="Name" />
               </label>
               <label>
                 Email address
@@ -618,9 +620,8 @@ function App() {
               <button className="button" type="submit">Continue by email <Arrow /></button>
             </form>
           </section>
-        </div>
-      )}
-    </>
+      </dialog>
+    </div>
   );
 }
 
