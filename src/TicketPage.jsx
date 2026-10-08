@@ -134,7 +134,7 @@ export default function TicketPage() {
             <div className="ticket-layout">
               <section className="ticket-story" aria-labelledby="ticket-title">
                 <p className="ticket-story__place">Martley’s of Portlaoise</p>
-                <h1 id="ticket-title">Where are <br />you off to?</h1>
+                <h1 id="ticket-title" className="h-section">Where are <br />you <em>off to?</em></h1>
                 <p className="ticket-story__intro">To class, to college, or out for the day.<br className="desktop-break" /> Travel with the people who know the Midlands.</p>
                 <figure className="ticket-story__photo">
                   <img src={roadImage} alt="A Martley’s coach on a quiet country road through the Midlands" width="1920" height="1080" />
@@ -150,7 +150,7 @@ export default function TicketPage() {
                   <li><span>3</span> Payment</li>
                 </ol>
                 <div className="ticket-form__intro">
-                  <h2 id="booking-title">Let’s plan your journey.</h2>
+                  <h2 id="booking-title" className="h-sub">Let’s plan <em>your journey.</em></h2>
                   <p>{current.description}</p>
                 </div>
                 <form className="ticket-form" onSubmit={(event) => { event.preventDefault(); setPreviewMessage(true); }}>
@@ -234,7 +234,7 @@ export default function TicketPage() {
 
             <section className="ticket-before" aria-labelledby="before-title">
               <div className="ticket-help">
-                <h2 id="before-title">A little help before you go.</h2>
+                <h2 id="before-title" className="h-sub">A little help <em>before you go.</em></h2>
                 <p>Talk to our team in Portlaoise.</p>
                 <a href="tel:+353578620888"><Icon name="phone" />057 862 0888</a>
               </div>

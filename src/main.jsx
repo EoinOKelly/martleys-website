@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
-import './ticket-shell.css';
 import TicketPage from './TicketPage';
 import Icon from './TicketIcon';
 import passengerImage from './assets/martleys-passengers-live.webp';
@@ -487,7 +486,7 @@ function App() {
           </nav>
       </dialog>
 
-      <div className={isTicketPage ? 'ticket-site' : isHomePage ? 'home-site' : undefined}>
+      <div className={isHomePage ? 'home-site' : undefined}>
       {isTicketPage ? <TicketPage key={location.search} /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
         <section className="intro">
           <div className="shell intro__grid">

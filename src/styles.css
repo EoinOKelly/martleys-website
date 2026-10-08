@@ -571,7 +571,7 @@ h2,
 /* One size for every section heading, each ending on a blue phrase; one smaller size for sub-headings. */
 .h-section { font-size: clamp(42px, 4.8vw, 66px); line-height: .94; }
 .h-sub { font-size: clamp(28px, 2.6vw, 36px); line-height: 1; letter-spacing: -.01em; }
-.h-section em {
+:is(.h-section, .h-sub) em {
   color: var(--blue-ink);
   font-style: normal;
 }
