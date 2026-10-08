@@ -677,20 +677,19 @@ function App() {
 
         <section id="fleet" className="fleet" aria-labelledby="fleet-title">
           <div className="shell fleet__head">
-            <div>
-              <h2 id="fleet-title" className="h-section">A bus for everyone,<br /><em>however you travel.</em></h2>
+            <h2 id="fleet-title" className="h-section">A bus for everyone,<br /><em>however you travel.</em></h2>
+            <div className="fleet__intro">
               <p>Clean, comfortable and well maintained—whatever the occasion, we’ve got a vehicle that fits. From cosy minibuses for small groups to spacious premium coaches for bigger crowds, everyone can travel together.</p>
-            </div>
-            <div className="fleet__head-actions">
               <button className="button" type="button" onClick={() => openQuote('Private hire')}>Enquire about the fleet <Arrow /></button>
-              <button className="fleet__toggle" type="button" aria-pressed={fleetPaused} aria-controls="fleet-reel"
-                aria-label={fleetPaused ? 'Play fleet photos' : 'Pause fleet photos'}
-                onClick={() => setFleetPaused(!fleetPaused)}>
-                <Icon name={fleetPaused ? 'play' : 'pause'} />
-              </button>
             </div>
           </div>
 
+          <div className="fleet__reel-wrap">
+          <button className="fleet__toggle" type="button" aria-pressed={fleetPaused} aria-controls="fleet-reel"
+            aria-label={fleetPaused ? 'Play fleet photos' : 'Pause fleet photos'}
+            onClick={() => setFleetPaused(!fleetPaused)}>
+            <Icon name={fleetPaused ? 'play' : 'pause'} />
+          </button>
           {/* The photos run twice in a row so the reel can loop without a visible seam. */}
           <div id="fleet-reel" className="fleet__reel" data-paused={fleetPaused || undefined}>
             <ul className="fleet__track">
@@ -707,6 +706,7 @@ function App() {
                 );
               })}
             </ul>
+          </div>
           </div>
 
           <div className="shell fleet__specs">

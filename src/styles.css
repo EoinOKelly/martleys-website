@@ -923,27 +923,31 @@ h2,
   color: var(--navy);
   background: linear-gradient(180deg, var(--white) 0%, var(--sky-soft) 35%, var(--sky) 100%);
 }
+/* Heading on the left, the words and button beside it: no empty gap. */
 .fleet__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 28px 48px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px clamp(40px, 6vw, 96px);
+  align-items: end;
 }
-.fleet__head p {
-  max-width: 46ch;
-  margin: 24px 0 0;
+.fleet__intro p {
+  max-width: 52ch;
+  margin: 0 0 24px;
   color: var(--muted);
   font-size: 17px;
 }
-.fleet__head-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.fleet__reel-wrap {
+  position: relative;
+  margin-top: clamp(40px, 5vw, 56px);
 }
+/* The pause button sits on the reel it controls. */
 .fleet__toggle {
-  width: 52px;
-  height: 52px;
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  right: var(--gutter);
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   padding: 0;
@@ -959,7 +963,6 @@ h2,
 
 /* A slow, endless reel of the fleet. It only stops when someone presses the pause button. */
 .fleet__reel {
-  margin-top: clamp(40px, 5vw, 64px);
   overflow: hidden;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
@@ -981,8 +984,8 @@ h2,
 .fleet__card {
   position: relative;
   flex: 0 0 auto;
-  width: clamp(260px, 26vw, 390px);
-  aspect-ratio: 3 / 4;
+  width: clamp(240px, 21vw, 320px);
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   background: var(--navy);
 }
@@ -1001,20 +1004,20 @@ h2,
 .fleet__caption {
   position: absolute;
   z-index: 1;
-  right: 22px;
-  bottom: 22px;
-  left: 22px;
+  right: 20px;
+  bottom: 20px;
+  left: 20px;
   display: grid;
-  gap: 8px;
+  gap: 6px;
   color: #e6f1fc;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.4;
 }
 .fleet__caption strong {
   color: var(--white);
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(28px, 2.4vw, 34px);
+  font-size: clamp(24px, 2vw, 30px);
   font-weight: 600;
   line-height: .95;
   letter-spacing: -.01em;
@@ -1043,6 +1046,7 @@ h2,
   font-weight: 600;
   line-height: .82;
   letter-spacing: -.02em;
+  white-space: nowrap;
 }
 .fleet__numbers dd {
   max-width: 22ch;
@@ -1543,6 +1547,7 @@ h2,
   }
   .updates__inner .button { grid-column: auto; }
   .fleet__facilities ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fleet__head { grid-template-columns: minmax(0, 1fr); }
   .about__points { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .about__points li { padding: 0; }
   .about__points li + li { padding-top: 16px; border-top: 1px solid var(--line); border-left: 0; }
@@ -1633,9 +1638,8 @@ h2,
   .route-board span:not(.arrow) { grid-area: name; }
   .route-board small { grid-area: tag; }
   .route-board .arrow { grid-area: arrow; }
-  .fleet__head-actions { width: 100%; }
-  .fleet__head-actions .button { flex: 1; }
-  .fleet__card { width: 72vw; }
+  .fleet__intro .button { width: 100%; }
+  .fleet__card { width: 66vw; }
   .fleet__track { animation-duration: 50s; }
   .fleet__caption { right: 18px; bottom: 18px; left: 18px; font-size: 14px; }
   .fleet__numbers { grid-template-columns: minmax(0, 1fr); }
