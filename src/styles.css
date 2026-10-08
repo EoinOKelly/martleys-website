@@ -632,13 +632,14 @@ h2,
 }
 .fleet__showcase {
   display: grid;
-  grid-template-columns: 1.45fr .7fr;
+  grid-template-columns: 1fr .8fr;
   gap: 14px;
   align-items: stretch;
 }
 .fleet__stage {
   position: relative;
-  height: clamp(260px, 25vw, 340px);
+  width: min(100%, 720px);
+  aspect-ratio: 1.8;
   overflow: hidden;
   background: var(--navy);
 }
@@ -1253,7 +1254,7 @@ h2,
   .reason-list { grid-template-columns: 1fr; }
   .routes { padding: 72px 0; }
   .fleet { padding: 72px 0; }
-  .fleet__stage { height: 220px; }
+  .fleet__stage { width: 100%; min-height: 320px; aspect-ratio: 1.1; }
   .fleet__stats { grid-template-columns: 1fr; }
   .story { padding: 72px 0; }
   .hire-grid { grid-template-columns: 1fr; }
