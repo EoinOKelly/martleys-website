@@ -94,8 +94,6 @@ const reviews = [
   },
   {
     quote: 'Very professional, friendly drivers. Cater for weddings, stags, hens, private hire to corporate functions, festivals, concerts and the races. Highly recommend them. Give the office a shout if you’re planning a run!',
-    name: 'John Kearney · Google review · 5/5',
-  },
 ];
 
 // Switch this off, or update its copy and link, between major events.
