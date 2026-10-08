@@ -92,8 +92,6 @@ const reviews = [
     quote: 'We use Martleys of Portlaoise for all our school transportation needs. Martleys are punctual, reliable, efficient, competitive and most importantly of all safe.',
     name: 'Gaelscoil Phortlaoise',
   },
-  {
-    quote: 'Very professional, friendly drivers. Cater for weddings, stags, hens, private hire to corporate functions, festivals, concerts and the races. Highly recommend them. Give the office a shout if you’re planning a run!',
 ];
 
 // Switch this off, or update its copy and link, between major events.
