@@ -15,16 +15,16 @@ import accessibleTravelImage from './assets/martleys-accessible-travel.jpg';
 import coachImage from './assets/martleys-coach-live.jpg';
 import martleysLogo from './assets/martleys-logo.png';
 import homeVideo from './assets/Martleys Website Home Page Video.mp4';
-import schoolBusImage from './assets/School Bus (2).png';
-import publicRoutesImage from './assets/Public Routes.png';
-import heathImage from './assets/The Heath (1).png';
-import fleetImage1 from './assets/Fleet 1.jpg';
-import fleetImage2 from './assets/Fleet 2.jpg';
-import fleetImage3 from './assets/Fleet 3.jpg';
-import fleetImage4 from './assets/Fleet 4.jpg';
-import fleetImage5 from './assets/Fleet 5.jpg';
-import fleetImage6 from './assets/Fleet 6.jpg';
-import fleetImage7 from './assets/Fleet 7.jpg';
+import schoolBusImage from './assets/martleys-school-bus.png';
+import publicRoutesImage from './assets/martleys-public-routes.png';
+import heathImage from './assets/martleys-the-heath-tour.png';
+import fleetImage1 from './assets/martleys-fleet-01.jpg';
+import fleetImage2 from './assets/martleys-fleet-02.jpg';
+import fleetImage3 from './assets/martleys-fleet-03.jpg';
+import fleetImage4 from './assets/martleys-fleet-04.jpg';
+import fleetImage5 from './assets/martleys-fleet-05.jpg';
+import fleetImage6 from './assets/martleys-fleet-06.jpg';
+import fleetImage7 from './assets/martleys-fleet-07.jpg';
 
 const routes = [
   ['821', 'Newbridge — Sallins Rail Station'],
