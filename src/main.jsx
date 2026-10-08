@@ -5,7 +5,6 @@ import './styles.css';
 import './ticket-shell.css';
 import TicketPage from './TicketPage';
 import Icon from './TicketIcon';
-import coachDetailImage from './assets/martleys-detail-live.jpg';
 import passengerImage from './assets/martleys-passengers-live.webp';
 import collegeCommuteImage from './assets/martleys-college-commute.webp';
 import concertsEventsImage from './assets/martleys-concerts-events.webp';
@@ -60,14 +59,14 @@ const serviceGroups = [
   { title: 'Trips & occasions', services: ['Private hire', 'Tours', 'Concerts & events', 'Festival shuttles'] },
 ].map((group) => ({ ...group, services: group.services.map((title) => services.find((service) => service.title === title)) }));
 
+// The 16–63 seat range is shown as one of the fleet's headline numbers instead.
 const facilities = [
-  'Fully air-conditioned',
-  'Free Wi‑Fi on selected coaches',
-  'Wheelchair access',
-  'Device charging points',
-  'Seat belts across the fleet',
-  '16–63 seat options',
-  'Fully RSA compliant buses and drivers',
+  ['snowflake', 'Fully air-conditioned'],
+  ['wifi', 'Free Wi‑Fi on selected coaches'],
+  ['accessible', 'Wheelchair access'],
+  ['plug', 'Device charging points'],
+  ['shield', 'Seat belts across the fleet'],
+  ['badge', 'Fully RSA compliant buses and drivers'],
 ];
 
 const hireTypes = [
@@ -269,7 +268,7 @@ function App() {
   const isHomePage = !isTicketPage && !isCareersPage;
   const homeLink = (anchor) => isTicketPage || isCareersPage ? `/${anchor}` : anchor;
   const [journey, setJourney] = useState('Private hire');
-  const [fleetIndex, setFleetIndex] = useState(0);
+  const [fleetPaused, setFleetPaused] = useState(false);
   const [showActionBar, setShowActionBar] = useState(false);
   const [quoteSent, setQuoteSent] = useState(null);
   const heroActions = useRef(null);
@@ -280,14 +279,13 @@ function App() {
   const servicesHoveredOpen = useRef(0);
 
   const fleetImages = [
-    { src: fleetImage1, alt: 'Martley’s accessible coach with passenger lift', label: 'Accessible travel' },
-    { src: fleetImage2, alt: 'Comfortable seats inside a Martley’s coach', label: 'Coach interiors' },
-    { src: fleetImage3, alt: 'A Martley’s coach viewed from the front', label: 'Modern coaches' },
-    { src: fleetImage4, alt: 'A Martley’s coach interior with rows of seats', label: 'Comfortable interiors' },
-    { src: fleetImage5, alt: 'A Martley’s coach interior viewed from the rear', label: 'Room for your group' },
-    { src: fleetImage6, alt: 'A Martley’s coach viewed through a passenger window', label: 'Fleet details' },
-    { src: fleetImage7, alt: 'A Martley’s coach outside the depot', label: 'Our fleet' },
-
+    { src: fleetImage1, alt: 'Martley’s accessible coach with passenger lift', title: 'Step-free boarding', line: 'Passenger lifts on adapted coaches, with room for up to 11 wheelchair users.' },
+    { src: fleetImage2, alt: 'Comfortable seats inside a Martley’s coach', title: 'Comfortable on board', line: 'High-back seats, with seat belts throughout.' },
+    { src: fleetImage3, alt: 'A Martley’s coach viewed from the front', title: 'Premium coaches', line: 'For weddings, corporate days and tours.' },
+    { src: fleetImage4, alt: 'A Martley’s coach interior with rows of seats', title: 'Room for the whole group', line: 'Up to 63 seats, so everyone travels together.' },
+    { src: fleetImage5, alt: 'A Martley’s coach interior viewed from the rear', title: 'Settle in for the trip', line: 'Fully air-conditioned, with free Wi‑Fi on selected coaches.' },
+    { src: fleetImage6, alt: 'A grey Martley’s coach parked at the depot', title: 'The right size for every trip', line: 'From 16-seat minibuses to 63-seat coaches.' },
+    { src: fleetImage7, alt: 'A Martley’s coach seen through a passenger window, with a wheelchair access sign', title: 'Kept in top condition', line: 'Clean, regularly serviced and RSA compliant.' },
   ];
 
   const openQuote = (type = journey) => {
@@ -386,6 +384,7 @@ function App() {
         <div className="shell header__inside">
           <Mark />
           <nav className="nav" aria-label="Primary navigation">
+            <a className="nav__link" href={homeLink('#about')}>About</a>
             <div className="nav__services" ref={servicesMenu}
               onPointerEnter={(event) => hoverServices(event, true)}
               onPointerLeave={(event) => hoverServices(event, false)}
@@ -425,8 +424,8 @@ function App() {
             </div>
             <a className="nav__link" href={homeLink('#school')}>Schools &amp; colleges</a>
             <a className="nav__link" href={homeLink('#routes')}>Public routes</a>
+            <a className="nav__link" href={homeLink('#private')}>Private hire</a>
             <a className="nav__link" href={homeLink('#fleet')}>Fleet</a>
-            <a className="nav__link" href={homeLink('#about')}>About</a>
             <a className="nav__link" href="/careers/" aria-current={isCareersPage ? 'page' : undefined}>Careers</a>
             <a className="nav__link" href={homeLink('#contact')}>Contact</a>
           </nav>
@@ -460,24 +459,27 @@ function App() {
               <button type="button" className="drawer__close" onClick={closeMenu} aria-label="Close menu">×</button>
             </div>
             <div className="drawer__links">
+              <a href={homeLink('#about')} onClick={closeMenu}>About</a>
               <details className="drawer__services">
                 <summary>Services</summary>
                 <div className="drawer__service-links">
                   <a href={homeLink('#school')} onClick={closeMenu}>School transport</a>
                   <a href={homeLink('#college')} onClick={closeMenu}>College commute</a>
-                  <a href={homeLink('#tours')} onClick={closeMenu}>Tours</a>
                   <a href={homeLink('#routes')} onClick={closeMenu}>Public routes</a>
-                  <a href={homeLink('#private')} onClick={closeMenu}>Private hire</a>
-                  <a href="https://martleys.com/festivals-concerts/" onClick={closeMenu}>Concerts &amp; events</a>
                   <a href="https://martleys.com/accessible-transport/" onClick={closeMenu}>Accessible transport</a>
+                  <a href={homeLink('#private')} onClick={closeMenu}>Private hire</a>
+                  <a href={homeLink('#tours')} onClick={closeMenu}>Tours</a>
+                  <a href="https://martleys.com/festivals-concerts/" onClick={closeMenu}>Concerts &amp; events</a>
                 </div>
               </details>
-              <a href={homeLink('#fleet')} onClick={closeMenu}>Our fleet</a>
-              <a href={homeLink('#about')} onClick={closeMenu}>About</a>
-              <a href="/careers/" onClick={closeMenu}>Careers</a>
+              <a href={homeLink('#school')} onClick={closeMenu}>Schools &amp; colleges</a>
+              <a href={homeLink('#routes')} onClick={closeMenu}>Public routes</a>
               <a href={homeLink('#travel-updates')} onClick={closeMenu}>Travel updates</a>
-              <a href="/tickets/" onClick={closeMenu}>Buy tickets</a>
+              <a href={homeLink('#private')} onClick={closeMenu}>Private hire</a>
+              <a href={homeLink('#fleet')} onClick={closeMenu}>Our fleet</a>
+              <a href="/careers/" onClick={closeMenu}>Careers</a>
               <a href={homeLink('#contact')} onClick={closeMenu}>Contact</a>
+              <a href="/tickets/" onClick={closeMenu}>Buy tickets</a>
             </div>
             <button className="button button--sky" onClick={() => openQuote()}>Get a quote <Arrow /></button>
             <a className="drawer__phone" href="tel:+353578620888">057 862 0888</a>
@@ -489,8 +491,7 @@ function App() {
         <section className="intro">
           <div className="shell intro__grid">
             <Reveal>
-              <p className="eyebrow eyebrow--blue">Careers</p>
-              <h1>Come work with Martley’s.</h1>
+              <h1 className="h-section">Come work with <em>Martley’s.</em></h1>
             </Reveal>
             <Reveal delay={80}>
               <p>Interested in joining our team? Send us a note with a little about yourself and the kind of work you’re looking for.</p>
@@ -511,22 +512,36 @@ function App() {
               <h1>Reliable coaches.<br /><em>Friendly service.</em></h1>
               <p className="hero__lead">The trusted local travel partner for the Midlands and beyond.</p>
               <div className="hero__actions" ref={heroActions}>
-                <button className="button button--sky" type="button" onClick={() => openQuote()}>Get a quote <Arrow /></button>
-                <a className="hero__text-action" href="/tickets/?service=school">Buy school tickets <Arrow /></a>
-                <a className="hero__text-action" href="/tickets/?service=college">Buy college commute tickets <Arrow /></a>
+                <button className="button" type="button" onClick={() => openQuote()}>Get a quote <Arrow /></button>
+                <a className="hero__ticket" href="/tickets/?service=school"><Icon name="school" /> School tickets</a>
+                <a className="hero__ticket" href="/tickets/?service=college"><Icon name="college" /> College tickets</a>
               </div>
             </div>
           </div>
-          <a className="hero__scroll" href="#services" aria-label="Explore Martley's services">
+          <a className="hero__scroll" href="#about" aria-label="Explore Martley's">
             <span>Explore</span>
             <i />
           </a>
         </section>
 
+        <section id="about" className="about" aria-labelledby="about-title">
+          <div className="shell about__inner">
+            <h2 id="about-title" className="h-section">Family-run in Portlaoise for <em>over 60 years.</em></h2>
+            <ul className="about__points">
+              <li><span className="icon-square"><Icon name="wheel" /></span>Drivers who know every road and route</li>
+              <li><span className="icon-square"><Icon name="wrench" /></span>Mechanics keeping every coach in top condition</li>
+              <li>
+                <span className="icon-square"><Icon name="phone" /></span>
+                <span>A friendly team on the other end of the phone <a href="tel:+353578620888">057 862 0888</a></span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
         <section id="services" className="services">
           <div className="shell">
             <div className="section-head">
-              <h2 className="h-tier1">Every kind of journey,<br />handled with care.</h2>
+              <h2 className="h-section">Every kind of journey,<br /><em>handled with care.</em></h2>
               <p>School mornings, daily commutes, tours, match days, celebrations and weekend festivals. Choose the service that fits, then leave the road to us.</p>
             </div>
             <ul className="service-grid">
@@ -552,7 +567,7 @@ function App() {
               <img src={schoolBusImage} alt="Red school bus outside a school" loading="lazy" />
             </div>
             <div className="school__copy">
-              <h2 className="h-tier1">Every school day starts <em>well.</em></h2>
+              <h2 className="h-section">Every school day starts <em>well.</em></h2>
               <p>
                 For generations, local families and schools have trusted Martley’s to transport their children safely. We operate daily school runs around Portlaoise and Mountrath, and work directly with teachers and coordinators to tailor transport for school tours and outings, giving parents, teachers and students peace of mind, every day.
               </p>
@@ -573,7 +588,7 @@ function App() {
             </div>
           </div>
           <div className="shell school__reasons">
-            <h3 className="h-tier3">Trusted by schools and parents across the Midlands.</h3>
+            <h3 className="h-sub">Trusted by schools and parents across the Midlands.</h3>
             <div className="review-grid review-grid--pair">
               {schoolReviews.map((review) => (
                 <figure key={review.name} className="review"><Review review={review} /></figure>
@@ -585,7 +600,7 @@ function App() {
         <section id="college" className="college">
           <div className="shell college__grid">
             <div className="college__copy">
-              <h2 className="h-tier2">A better start to <em>your day.</em></h2>
+              <h2 className="h-section">A better start to <em>your day.</em></h2>
               <p>We provide a comfortable, reliable and affordable daily commuter service to South East Technological University (SETU), Carlow Institute (CIT) and Carlow College St Patrick’s, with convenient pick-up and drop-off points to suit your schedule. Designed with students and commuters in mind, our service makes the journey stress-free.</p>
               <ul className="checklist checklist--single">
                 <li>50% off for Young Adult Leap Card (YAC) holders</li>
@@ -605,32 +620,10 @@ function App() {
           </div>
         </section>
 
-        <section id="private" className="hire">
-          <div className="hire__media">
-            <img src={fleetImage3} alt="A Martley’s coach viewed from the front" loading="lazy" />
-          </div>
-          <div className="hire__copy">
-            <h2 className="h-tier1">Big days.<br />Small details.<br /><em>One good journey.</em></h2>
-            <p>
-              Corporate travel, weddings, sports clubs, airport transfers, concerts and local festivals—
-              tell us the destination, dates and numbers, and we’ll shape a clear plan before anyone boards.
-            </p>
-            <dl className="hire-grid">
-              {hireTypes.map(([title, copy]) => (
-                <div key={title}>
-                  <dt>{title}</dt>
-                  <dd>{copy}</dd>
-                </div>
-              ))}
-            </dl>
-            <button className="button" type="button" onClick={() => openQuote('Private hire')}>Start a private hire quote <Arrow /></button>
-          </div>
-        </section>
-
         <section id="routes" className="routes">
           <div className="shell routes__grid">
             <div className="routes__intro">
-              <h2 className="h-tier2">Right on<br />your route.</h2>
+              <h2 className="h-section">Right on<br /><em>your route.</em></h2>
               <p>We proudly operate a network of public service routes in partnership with the National Transport Authority (NTA) and TFI Local Link.</p>
               <a className="button button--outline" href="https://martleys.com/public-service-routes/">See all timetables <Arrow /></a>
             </div>
@@ -654,86 +647,88 @@ function App() {
 
         <section id="travel-updates" className="updates">
           <div className="shell updates__inner">
-            <h2 className="h-tier3">Concerts, festivals and service news.</h2>
+            <h2 className="h-section">Concerts, festivals <em>and service news.</em></h2>
             <p>Find ticket links, pickup points, times and important travel information for upcoming events.</p>
             <a className="button button--outline" href="https://martleys.com/festivals-concerts/">View latest updates <Arrow /></a>
           </div>
         </section>
 
-        <section id="fleet" className="fleet">
-          <div className="shell fleet__top">
+        <section id="private" className="hire">
+          <div className="hire__media">
+            <img src={fleetImage3} alt="A Martley’s coach viewed from the front" loading="lazy" />
+          </div>
+          <div className="hire__copy">
+            <h2 className="h-section">Big days.<br />Small details.<br /><em>One good journey.</em></h2>
+            <p>
+              Corporate travel, weddings, sports clubs, airport transfers, concerts and local festivals—
+              tell us the destination, dates and numbers, and we’ll shape a clear plan before anyone boards.
+            </p>
+            <dl className="hire-grid">
+              {hireTypes.map(([title, copy]) => (
+                <div key={title}>
+                  <dt>{title}</dt>
+                  <dd>{copy}</dd>
+                </div>
+              ))}
+            </dl>
+            <button className="button" type="button" onClick={() => openQuote('Private hire')}>Start a private hire quote <Arrow /></button>
+          </div>
+        </section>
+
+        <section id="fleet" className="fleet" aria-labelledby="fleet-title">
+          <div className="shell fleet__head">
             <div>
-              <h2 className="h-tier2">A bus for everyone,<br />however you travel.</h2>
-              <p>Clean, comfortable and well maintained—whatever the occasion, we’ve got a vehicle that fits. From cosy minibuses for small groups to spacious premium coaches for bigger crowds, along with specially adapted wheelchair-accessible buses carrying up to 11 wheelchair passengers each, everyone can travel together.</p>
+              <h2 id="fleet-title" className="h-section">A bus for everyone,<br /><em>however you travel.</em></h2>
+              <p>Clean, comfortable and well maintained—whatever the occasion, we’ve got a vehicle that fits. From cosy minibuses for small groups to spacious premium coaches for bigger crowds, everyone can travel together.</p>
             </div>
-            <div className="fleet__facilities">
-              <p>Onboard facilities</p>
-              <ul>
-                {facilities.map((item) => <li key={item}>{item}</li>)}
-              </ul>
+            <div className="fleet__head-actions">
+              <button className="button" type="button" onClick={() => openQuote('Private hire')}>Enquire about the fleet <Arrow /></button>
+              <button className="fleet__toggle" type="button" aria-pressed={fleetPaused} aria-controls="fleet-reel"
+                aria-label={fleetPaused ? 'Play fleet photos' : 'Pause fleet photos'}
+                onClick={() => setFleetPaused(!fleetPaused)}>
+                <Icon name={fleetPaused ? 'play' : 'pause'} />
+              </button>
             </div>
           </div>
-          <div className="shell fleet__showcase">
-            <div className="fleet__stage">
-              <img src={fleetImages[fleetIndex].src} alt={fleetImages[fleetIndex].alt} />
-              <div className="fleet__stage-bar">
-                <span aria-live="polite">{fleetImages[fleetIndex].label} <small>{fleetIndex + 1} / {fleetImages.length}</small></span>
-                <div className="fleet__controls">
-                  <button
-                    type="button"
-                    aria-label="Previous fleet image"
-                    onClick={() => setFleetIndex((current) => (current - 1 + fleetImages.length) % fleetImages.length)}
-                  >
-                    ‹
-                  </button>
-                  <button
-                    type="button"
-                    aria-label="Next fleet image"
-                    onClick={() => setFleetIndex((current) => (current + 1) % fleetImages.length)}
-                  >
-                    ›
-                  </button>
-                </div>
-              </div>
-            </div>
-            <dl className="fleet__stats">
+
+          {/* The photos run twice in a row so the reel can loop without a visible seam. */}
+          <div id="fleet-reel" className="fleet__reel" data-paused={fleetPaused || undefined}>
+            <ul className="fleet__track">
+              {[...fleetImages, ...fleetImages].map((image, index) => {
+                const copy = index >= fleetImages.length;
+                return (
+                  <li key={index} className="fleet__card" aria-hidden={copy || undefined}>
+                    <img src={image.src} alt={copy ? '' : image.alt} loading="lazy" />
+                    <span className="fleet__caption">
+                      <strong>{image.title}</strong>
+                      {image.line}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          <div className="shell fleet__specs">
+            <dl className="fleet__numbers">
               <div><dt>60+</dt><dd>years of local experience</dd></div>
               <div><dt>16–63</dt><dd>seats for every group size</dd></div>
               <div><dt>11</dt><dd>wheelchair passengers on adapted coaches</dd></div>
             </dl>
-          </div>
-          <div className="shell fleet__cta">
-            <button className="button" type="button" onClick={() => openQuote('Private hire')}>Enquire about the fleet <Arrow /></button>
-          </div>
-        </section>
-
-        <section id="about" className="about">
-          <div className="shell about__head">
-            <h2 className="h-tier2">Connecting people has been at the heart of what we do for over 60 years.</h2>
-            <p>
-              Martley’s of Portlaoise is a family-run transport business, established and serving the Midlands for over 60 years.
-              From licensed school routes to private hire, concerts, festivals and accessible coaches—we keep every journey clear, calm and on time.
-            </p>
-          </div>
-          <div className="shell about__visual">
-            <img src={coachDetailImage} alt="Detail of a Martley's coach" loading="lazy" />
-          </div>
-          <div className="shell about__body">
-            <h3 className="h-tier3">Proudly local, proudly family run—but it’s our team that gets you there.</h3>
-            <div>
-              <p>
-                Martley’s is a family business at heart, but it’s our team that makes every journey happen. Experienced drivers know the roads and routes inside out. Skilled mechanics keep every coach in top condition, day in and day out. Friendly staff are on the other end of the phone, ready to answer your questions.
-              </p>
-              <p>
-                Whether it’s a daily school run or a once-in-a-lifetime celebration, that team treats every journey with the same care: safe vehicles, trusted drivers, and people who know exactly what they’re doing.
-              </p>
+            <div className="fleet__facilities">
+              <h3 id="facilities-title">Onboard facilities</h3>
+              <ul aria-labelledby="facilities-title">
+                {facilities.map(([icon, label]) => (
+                  <li key={label}><span className="icon-square"><Icon name={icon} /></span>{label}</li>
+                ))}
+              </ul>
             </div>
           </div>
         </section>
 
         <section className="trust" aria-labelledby="testimonials-title">
           <div className="shell">
-            <h2 id="testimonials-title" className="h-tier3">Good journeys, remembered.</h2>
+            <h2 id="testimonials-title" className="h-section">Good journeys, <em>remembered.</em></h2>
             <div className="review-grid">
               {otherReviews.map((review) => (
                 <figure key={review.name} className="review"><Review review={review} /></figure>
@@ -746,7 +741,7 @@ function App() {
           <div className="shell contact__inner">
             <div>
               <p className="contact__lead">Start with a simple hello.</p>
-              <h2 className="h-tier1">Where can we take you?</h2>
+              <h2 className="h-section">Where can we <em>take you?</em></h2>
             </div>
             <div className="contact__actions">
               <p>Tell us your destination, group size and dates. We’ll come back with a clear, tailored plan.</p>
@@ -804,8 +799,7 @@ function App() {
         } }}>
           <section>
             <button className="modal-close" onClick={() => setQuoteOpen(false)} aria-label="Close quote form">×</button>
-            <p className="eyebrow eyebrow--blue">Request a quote</p>
-            <h2 id="quote-title">Let’s plan your journey.</h2>
+            <h2 id="quote-title" className="h-section">Let’s plan <em>your journey.</em></h2>
             <p>Give us a few details and our local team will be in touch.</p>
             <form
               onSubmit={(event) => {
