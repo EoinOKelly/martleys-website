@@ -10,6 +10,7 @@ import collegeCommuteImage from './assets/martleys-college-commute.webp';
 import concertsEventsImage from './assets/martleys-concerts-events.webp';
 import festivalShuttlesImage from './assets/martleys-festival-shuttles.webp';
 import countrysideCoachImage from './assets/martleys-hero.webp';
+import coachDetailImage from './assets/martleys-detail-live.jpg';
 import accessibleTravelImage from './assets/martleys-accessible-travel.webp';
 import coachImage from './assets/martleys-coach-live.jpg';
 import martleysLogo from './assets/martleys-logo.png';
@@ -384,7 +385,6 @@ function App() {
         <div className="shell header__inside">
           <Mark />
           <nav className="nav" aria-label="Primary navigation">
-            <a className="nav__link" href={homeLink('#about')}>About</a>
             <div className="nav__services" ref={servicesMenu}
               onPointerEnter={(event) => hoverServices(event, true)}
               onPointerLeave={(event) => hoverServices(event, false)}
@@ -425,6 +425,7 @@ function App() {
             <a className="nav__link" href={homeLink('#school')}>Schools &amp; colleges</a>
             <a className="nav__link" href={homeLink('#routes')}>Public routes</a>
             <a className="nav__link" href={homeLink('#private')}>Private hire</a>
+            <a className="nav__link" href={homeLink('#about')}>About</a>
             <a className="nav__link" href={homeLink('#fleet')}>Fleet</a>
             <a className="nav__link" href="/careers/" aria-current={isCareersPage ? 'page' : undefined}>Careers</a>
             <a className="nav__link" href={homeLink('#contact')}>Contact</a>
@@ -459,7 +460,6 @@ function App() {
               <button type="button" className="drawer__close" onClick={closeMenu} aria-label="Close menu">×</button>
             </div>
             <div className="drawer__links">
-              <a href={homeLink('#about')} onClick={closeMenu}>About</a>
               <details className="drawer__services">
                 <summary>Services</summary>
                 <div className="drawer__service-links">
@@ -476,6 +476,7 @@ function App() {
               <a href={homeLink('#routes')} onClick={closeMenu}>Public routes</a>
               <a href={homeLink('#travel-updates')} onClick={closeMenu}>Travel updates</a>
               <a href={homeLink('#private')} onClick={closeMenu}>Private hire</a>
+              <a href={homeLink('#about')} onClick={closeMenu}>About</a>
               <a href={homeLink('#fleet')} onClick={closeMenu}>Our fleet</a>
               <a href="/careers/" onClick={closeMenu}>Careers</a>
               <a href={homeLink('#contact')} onClick={closeMenu}>Contact</a>
@@ -518,23 +519,22 @@ function App() {
               </div>
             </div>
           </div>
-          <a className="hero__scroll" href="#about" aria-label="Explore Martley's">
+          <a className="hero__scroll" href="#welcome" aria-label="Explore Martley's">
             <span>Explore</span>
             <i />
           </a>
         </section>
 
-        <section id="about" className="about" aria-labelledby="about-title">
-          <div className="shell about__inner">
-            <h2 id="about-title" className="h-section">Family-run in Portlaoise for <em>over 60 years.</em></h2>
-            <ul className="about__points">
-              <li><span className="icon-square"><Icon name="wheel" /></span>Drivers who know every road and route</li>
-              <li><span className="icon-square"><Icon name="wrench" /></span>Mechanics keeping every coach in top condition</li>
-              <li>
-                <span className="icon-square"><Icon name="phone" /></span>
-                <span>A friendly team on the other end of the phone <a href="tel:+353578620888">057 862 0888</a></span>
-              </li>
-            </ul>
+        <section id="welcome" className="welcome" aria-labelledby="welcome-title">
+          <div className="shell welcome__grid">
+            <h2 id="welcome-title" className="h-section">The trusted local travel partner for the Midlands <em>and beyond.</em></h2>
+            <div className="welcome__copy">
+              <p>
+                Martley’s of Portlaoise is a family-run transport business, established and serving the Midlands for over 60 years.
+                From licensed school routes to private hire, concerts, festivals and accessible coaches—we keep every journey clear, calm and on time.
+              </p>
+              <a className="inline-link" href="#about">Our story <Arrow /></a>
+            </div>
           </div>
         </section>
 
@@ -672,6 +672,23 @@ function App() {
               ))}
             </dl>
             <button className="button" type="button" onClick={() => openQuote('Private hire')}>Start a private hire quote <Arrow /></button>
+          </div>
+        </section>
+
+        <section id="about" className="story" aria-labelledby="about-title">
+          <div className="shell story__grid">
+            <div className="story__photo">
+              <img src={coachDetailImage} alt="Detail of a Martley's coach" loading="lazy" />
+            </div>
+            <div className="story__copy">
+              <h2 id="about-title" className="h-section">Proudly local, proudly family run—but it’s our team that <em>gets you there.</em></h2>
+              <p>
+                Martley’s is a family business at heart, but it’s our team that makes every journey happen. Experienced drivers know the roads and routes inside out. Skilled mechanics keep every coach in top condition, day in and day out. Friendly staff are on the other end of the phone, ready to answer your questions.
+              </p>
+              <p>
+                Whether it’s a daily school run or a once-in-a-lifetime celebration, that team treats every journey with the same care: safe vehicles, trusted drivers, and people who know exactly what they’re doing.
+              </p>
+            </div>
           </div>
         </section>
 

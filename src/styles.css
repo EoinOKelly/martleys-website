@@ -438,7 +438,7 @@ button:hover .arrow { transform: translateX(4px); }
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
-  min-height: calc(100svh - 118px);
+  min-height: calc(100svh - var(--chrome, 117px));
   overflow: hidden;
   color: var(--white);
   background: var(--navy);
@@ -462,7 +462,7 @@ button:hover .arrow { transform: translateX(4px); }
 }
 .hero__content {
   position: relative;
-  min-height: calc(100svh - 118px);
+  min-height: calc(100svh - var(--chrome, 117px));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -827,7 +827,9 @@ h2,
 /* ---------- Public routes ---------- */
 .routes {
   padding: clamp(72px, 9vw, 120px) 0;
-  background: var(--sky-soft);
+  background:
+    radial-gradient(circle, rgba(22,107,198,.16) 1px, transparent 1.4px) 0 0 / 24px 24px,
+    linear-gradient(180deg, var(--sky-soft), var(--sky));
 }
 .routes__grid {
   display: grid;
@@ -901,6 +903,7 @@ h2,
 .updates {
   padding: 56px 0;
   background: var(--white);
+  border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 .updates__inner {
@@ -1094,48 +1097,62 @@ h2,
   .fleet__toggle { display: none; }
 }
 
-/* ---------- About: a short trust strip straight after the hero ---------- */
-.about {
-  padding: clamp(56px, 7vw, 88px) 0;
-  background: var(--sky-soft);
-  border-bottom: 1px solid var(--line);
+/* ---------- Welcome: who we are, straight after the hero ---------- */
+.welcome {
+  padding: clamp(64px, 8vw, 104px) 0;
+  background:
+    radial-gradient(ellipse 60% 120% at 100% 0%, rgba(68,153,248,.16), transparent 60%),
+    radial-gradient(ellipse 50% 90% at 0% 100%, rgba(68,153,248,.08), transparent 60%),
+    var(--sky-soft);
 }
-.about__inner {
+.welcome__grid {
   display: grid;
-  grid-template-columns: minmax(0, .8fr) minmax(0, 1.7fr);
-  gap: 32px clamp(40px, 5vw, 80px);
-  align-items: center;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: 28px clamp(40px, 7vw, 112px);
+  align-items: end;
 }
-.about__points {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.about__points li {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 4px 24px;
+.welcome__copy p {
+  max-width: 50ch;
+  margin: 0 0 20px;
   color: var(--navy);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.35;
+  font-size: 18px;
+  line-height: 1.6;
 }
-.about__points li + li { border-left: 1px solid var(--line); }
-.about__points li:first-child { padding-left: 0; }
-.about__points .icon-square { width: 44px; height: 44px; }
-.about__points .icon-square svg { width: 22px; height: 22px; }
-.about__points a {
-  display: block;
-  margin-top: 4px;
-  color: var(--blue-ink);
-  white-space: nowrap;
-}
-.about__points a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.welcome__copy .inline-link { color: var(--blue-ink); }
+.welcome__copy .inline-link:hover { color: var(--navy); }
 
-/* Blue icon square shared by the About strip and fleet facilities. */
+/* ---------- Our story ---------- */
+.story {
+  padding: clamp(72px, 9vw, 120px) 0;
+  background: var(--white);
+}
+.story__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px clamp(40px, 6vw, 96px);
+  align-items: center;
+}
+.story__photo {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--sky);
+}
+.story__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 78% center;
+}
+.story__copy h2 { margin-bottom: 28px; }
+.story__copy p {
+  max-width: 54ch;
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 17px;
+}
+.story__copy p:last-child { margin-bottom: 0; }
+
+/* Blue icon square used by the fleet facilities. */
 .icon-square {
   width: 48px;
   height: 48px;
@@ -1214,9 +1231,13 @@ h2,
 /* ---------- Contact ---------- */
 .contact {
   padding: clamp(80px, 10vw, 136px) 0;
-  color: var(--navy);
-  background: var(--sky);
+  color: var(--white);
+  background:
+    radial-gradient(ellipse 70% 90% at 50% 0%, rgba(120,190,255,.45), transparent 65%),
+    var(--blue-ink);
 }
+.contact .h-section { color: var(--white); }
+.contact .h-section em { color: #cfe5fb; }
 .contact__inner {
   display: grid;
   justify-items: center;
@@ -1231,26 +1252,37 @@ h2,
 .contact__actions > p { max-width: 44ch; }
 .contact__lead {
   margin: 0 0 16px;
-  color: var(--blue-ink);
+  color: #e6f1fc;
   font-size: 18px;
   font-weight: 700;
 }
 .contact__actions > p {
   margin: 0;
-  color: var(--muted);
+  color: #eef6ff;
   font-size: 17px;
 }
+.contact .button {
+  color: var(--navy);
+  background: var(--white);
+  border-color: var(--white);
+}
+.contact .button:hover {
+  color: var(--white);
+  background: var(--navy);
+  border-color: var(--navy);
+}
+.contact :focus-visible { outline-color: var(--white); }
 .contact__actions .button { margin-top: 28px; }
 .contact__actions > a {
   display: flex;
   align-items: center;
   min-height: 44px;
   margin-top: 12px;
-  color: var(--navy);
+  color: #eef6ff;
   font-size: 15px;
 }
-.contact__actions > a strong { margin-left: 6px; }
-.contact__actions > a:hover strong { color: var(--blue-ink); }
+.contact__actions > a strong { margin-left: 6px; color: var(--white); }
+.contact__actions > a:hover strong { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- Footer ---------- */
 .footer {
@@ -1425,7 +1457,6 @@ h2,
 }
 
 @media (max-width: 1180px) {
-  .about__inner { grid-template-columns: minmax(0, 1fr); }
   .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .service-tile a { height: 280px; }
   .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1540,7 +1571,8 @@ h2,
   .school__reasons,
   .college__grid,
   .routes__grid,
-  .about__inner,
+  .welcome__grid,
+  .story__grid,
   .updates__inner,
   .review-grid {
     grid-template-columns: minmax(0, 1fr);
@@ -1548,47 +1580,27 @@ h2,
   .updates__inner .button { grid-column: auto; }
   .fleet__facilities ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .fleet__head { grid-template-columns: minmax(0, 1fr); }
-  .about__points { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .about__points li { padding: 0; }
-  .about__points li + li { padding-top: 16px; border-top: 1px solid var(--line); border-left: 0; }
+
   .school__image { aspect-ratio: 4 / 3; }
   .college__image { order: -1; }
   .hire { grid-template-columns: minmax(0, 1fr); }
   .hire__media { min-height: 0; aspect-ratio: 16 / 10; }
   .hire__copy { padding: 56px var(--gutter) 64px; }
 
-  /* Phones and portrait tablets: the video gets its own band and the words sit on white beneath it. */
-  .hero {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    color: var(--navy);
-    background: var(--white);
+  /* Phones and portrait tablets: the video still fills the screen, with the words at the bottom over a navy fade. */
+  .hero__image { object-position: 56% center; }
+  .hero__scrim {
+    background: linear-gradient(180deg, rgba(11,35,57,.1) 0%, rgba(11,35,57,.15) 35%, rgba(11,35,57,.72) 62%, rgba(11,35,57,.9) 100%);
   }
-  .hero__image {
-    position: relative;
-    height: min(52svh, 480px);
-    object-position: 56% center;
-  }
-  .hero__scrim { display: none; }
-  .hero__content { min-height: 0; padding: 32px 0 48px; }
+  .hero__content { justify-content: flex-end; padding-bottom: 40px; }
   .hero__copy { width: 100%; }
-  .hero__brand { color: var(--blue-ink); }
-  .hero h1 { color: var(--navy); }
-  .hero h1 em { color: var(--blue-ink); }
-  .hero__lead { color: var(--muted); }
-  .hero .button:hover { color: var(--white); background: var(--navy); border-color: var(--navy); }
-  .hero__ticket { color: var(--navy); border-color: #b9d3ec; }
-  .hero__ticket svg { color: var(--blue-ink); }
-  .hero__ticket:hover { color: var(--blue-ink); background: var(--sky-soft); border-color: var(--blue-ink); }
-  .hero__copy :focus-visible { outline-color: var(--blue-ink); }
   .hero__lead { font-size: 17px; }
   .hero__actions { margin-top: 28px; }
   .hero__scroll { display: none; }
 }
 
 @media (max-width: 740px) {
-  :root { --shell: min(100% - 36px, 1200px); --gutter: 18px; }
+  :root { --shell: min(100% - 36px, 1200px); --gutter: 18px; --chrome: 105px; }
 
   .topbar { font-size: 12px; }
   .topbar__inside { gap: 16px; }
@@ -1600,11 +1612,13 @@ h2,
   .header__quote { display: none; }
   .header__tickets { padding: 0 14px; }
 
-  .hero__image { height: min(46svh, 400px); }
   .hero h1 { font-size: clamp(54px, 15vw, 76px); }
   .hero__actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .hero__actions .button { grid-column: 1 / -1; }
   .hero__ticket { justify-content: center; padding: 0 12px; }
+  .hero__scrim {
+    background: linear-gradient(180deg, rgba(11,35,57,.05) 0%, rgba(11,35,57,.2) 25%, rgba(11,35,57,.7) 45%, rgba(11,35,57,.9) 100%);
+  }
 
   .section-head { margin-bottom: 32px; }
   /* The service tiles become a swipeable row so they don't fill several screens. */
@@ -1711,6 +1725,11 @@ h2,
     width: 44px;
     min-height: 44px;
   }
+}
+
+@media (max-width: 379px) {
+  .hero__ticket { gap: 8px; padding: 0 8px; font-size: 13px; }
+  .hero__ticket svg { width: 18px; height: 18px; }
 }
 
 @media (max-width: 359px) {
