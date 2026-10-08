@@ -164,7 +164,7 @@ function containDialogFocus(event) {
 function App() {
   const isTicketPage = /^\/tickets\/?$/.test(window.location.pathname);
   const isCareersPage = /^\/careers\/?$/.test(window.location.pathname);
-  const homeLink = (anchor) => isTicketPage ? `/${anchor}` : anchor;
+  const homeLink = (anchor) => isTicketPage || isCareersPage ? `/${anchor}` : anchor;
   const [menuOpen, setMenuOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
   const [journey, setJourney] = useState('Private hire');

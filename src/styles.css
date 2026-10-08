@@ -639,7 +639,7 @@ h2,
 .fleet__stage {
   position: relative;
   width: min(100%, 720px);
-  aspect-ratio: 1.8;
+  aspect-ratio: 1.65;
   overflow: hidden;
   background: var(--navy);
 }
