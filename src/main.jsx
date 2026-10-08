@@ -14,6 +14,17 @@ import interiorImage from './assets/martleys-interior-concept.png';
 import accessibleTravelImage from './assets/martleys-accessible-travel.jpg';
 import coachImage from './assets/martleys-coach-live.jpg';
 import martleysLogo from './assets/martleys-logo.png';
+import homeVideo from './assets/Martleys Website Home Page Video.mp4';
+import schoolBusImage from './assets/School Bus (2).png';
+import publicRoutesImage from './assets/Public Routes.png';
+import heathImage from './assets/The Heath (1).png';
+import fleetImage1 from './assets/Fleet 1.jpg';
+import fleetImage2 from './assets/Fleet 2.jpg';
+import fleetImage3 from './assets/Fleet 3.jpg';
+import fleetImage4 from './assets/Fleet 4.jpg';
+import fleetImage5 from './assets/Fleet 5.jpg';
+import fleetImage6 from './assets/Fleet 6.jpg';
+import fleetImage7 from './assets/Fleet 7.jpg';
 
 const routes = [
   ['821', 'Newbridge — Sallins Rail Station'],
@@ -24,11 +35,19 @@ const routes = [
   ['2343', 'Borris-in-Ossory — Mount Lucas'],
 ];
 
+const routeTimetables = {
+  '821': 'https://www.transportforireland.ie/wp-content/uploads/2024/08/TFI-LL-KSD-R821-V1.pdf',
+  '834': 'https://martleys.com/wp-content/uploads/834-Portlaoise-to-Roscrea-4pp-10Feb25-ONLINE.pdf',
+  '883': 'https://www.transportforireland.ie/wp-content/uploads/2020/10/newbridgetoathyjune18.pdf',
+  '892': 'https://martleys.com/wp-content/uploads/TFI-LL-DSL-R892-FA2-WEB.pdf',
+  '2343': 'https://martleys.com/wp-content/uploads/2343-Borris-In-Ossory-to-Mount-Lucas-ONLINE.pdf',
+};
+
 const services = [
-  { title: 'School transport', copy: 'Safe, trusted daily school runs around Portlaoise and Mountrath.', image: roadImage, pos: 'center 58%', href: '#school' },
+  { title: 'School transport', copy: 'Safe, trusted daily school runs around Portlaoise and Mountrath.', image: schoolBusImage, pos: 'center 58%', href: '#school' },
   { title: 'College commute', copy: 'Reliable travel to Carlow colleges for students and commuters.', image: passengerImage, pos: '50% center', href: '#college' },
-  { title: 'Tours', copy: 'Tours within Ireland, or travel with us to Europe and the UK.', image: coachDetailImage, pos: '60% center', href: '#tours' },
-  { title: 'Public routes', copy: 'Comfortable local connections in partnership with NTA and TFI Local Link.', image: countrysideCoachImage, pos: 'center', href: '#routes' },
+  { title: 'Tours', copy: 'Tours within Ireland, or travel with us to Europe and the UK.', image: heathImage, pos: '60% center', href: '#tours' },
+  { title: 'Public routes', copy: 'Comfortable local connections in partnership with NTA and TFI Local Link.', image: publicRoutesImage, pos: 'center', href: '#routes' },
   { title: 'Private hire', copy: 'Your group, your plan—from minibuses to a full coach.', image: coachImage, pos: 'center', href: '#private' },
   { title: 'Concerts & events', copy: 'Easy rides to Aviva, Croke Park, 3Arena and more.', image: concertsEventsImage, pos: '60% center', href: 'https://martleys.com/festivals-concerts/' },
   { title: 'Festival shuttles', copy: 'To and from Electric Picnic, Forest Fest and local festivals.', image: festivalShuttlesImage, pos: '80% center', href: 'https://martleys.com/festivals-concerts/' },
@@ -87,6 +106,9 @@ const activeEventNotice = {
   href: '#travel-updates',
 };
 
+const schoolReviews = reviews.filter((review) => /St\. Mary|Gaelscoil Phortlaoise|school transportation needs/i.test(review.name + review.quote));
+const otherReviews = reviews.filter((review) => !schoolReviews.includes(review));
+
 function Arrow() {
   return <span className="arrow" aria-hidden="true">→</span>;
 }
@@ -141,6 +163,7 @@ function containDialogFocus(event) {
 
 function App() {
   const isTicketPage = /^\/tickets\/?$/.test(window.location.pathname);
+  const isCareersPage = /^\/careers\/?$/.test(window.location.pathname);
   const homeLink = (anchor) => isTicketPage ? `/${anchor}` : anchor;
   const [menuOpen, setMenuOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
@@ -150,10 +173,14 @@ function App() {
   const quoteDialog = useRef(null);
 
   const fleetImages = [
-    { src: countrysideCoachImage, alt: 'Martley’s coach on a countryside road', label: 'Full-size coaches' },
-    { src: coachImage, alt: 'Martley’s coach ready for hire', label: 'Modern fleet' },
-    { src: interiorImage, alt: 'Comfortable Martley’s coach interior', label: 'Comfortable interiors' },
-    { src: roadImage, alt: 'Martley’s coach travelling through the Midlands', label: 'Midlands specialists' },
+    { src: fleetImage1, alt: 'Martley’s accessible coach with passenger lift', label: 'Accessible travel' },
+    { src: fleetImage2, alt: 'Comfortable seats inside a Martley’s coach', label: 'Coach interiors' },
+    { src: fleetImage3, alt: 'A Martley’s coach viewed from the front', label: 'Modern coaches' },
+    { src: fleetImage4, alt: 'A Martley’s coach interior with rows of seats', label: 'Comfortable interiors' },
+    { src: fleetImage5, alt: 'A Martley’s coach interior viewed from the rear', label: 'Room for your group' },
+    { src: fleetImage6, alt: 'A Martley’s coach viewed through a passenger window', label: 'Fleet details' },
+    { src: fleetImage7, alt: 'A Martley’s coach outside the depot', label: 'Our fleet' },
+
   ];
 
   const openQuote = (type = journey) => {
@@ -207,6 +234,7 @@ function App() {
             <a href={homeLink('#routes')}>Public routes</a>
             {!isTicketPage && <a href={homeLink('#fleet')}>Fleet</a>}
             <a href={homeLink('#about')}>About</a>
+            <a href="/careers/">Careers</a>
             {!isTicketPage && <a href={homeLink('#contact')}>Contact</a>}
           </nav>
           <div className="header__actions">
@@ -255,6 +283,7 @@ function App() {
               </details>
               <a href={homeLink('#fleet')} onClick={closeMenu}>Our fleet</a>
               <a href={homeLink('#about')} onClick={closeMenu}>About</a>
+              <a href="/careers/" onClick={closeMenu}>Careers</a>
               <a href={homeLink('#travel-updates')} onClick={closeMenu}>Travel updates</a>
               <a href="/tickets/" onClick={closeMenu}>Buy tickets</a>
               <a href={homeLink('#contact')} onClick={closeMenu}>Contact</a>
@@ -264,9 +293,22 @@ function App() {
           </nav>
       </dialog>
 
-      {isTicketPage ? <TicketPage /> : <main id="top" tabIndex="-1">
+      {isTicketPage ? <TicketPage /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
+        <section className="intro">
+          <div className="shell intro__grid">
+            <Reveal>
+              <p className="eyebrow eyebrow--blue">Careers</p>
+              <h1>Come work with Martley’s.</h1>
+            </Reveal>
+            <Reveal delay={80}>
+              <p>Interested in joining our team? Send us a note with a little about yourself and the kind of work you’re looking for.</p>
+              <a className="button" href="mailto:info@martleys.com?subject=Careers%20enquiry">Make a careers enquiry <Arrow /></a>
+            </Reveal>
+          </div>
+        </section>
+      </main> : <main id="top" tabIndex="-1">
         <section className="hero">
-          <img className="hero__image" src={countrysideCoachImage} alt="A Martley's coach travelling through the Irish countryside" />
+          <video className="hero__image" src={homeVideo} poster={countrysideCoachImage} autoPlay muted loop playsInline aria-hidden="true" />
           <div className="hero__scrim" />
           <div className="shell hero__content">
             <div className="hero__copy">
@@ -331,7 +373,7 @@ function App() {
         <section id="school" className="school">
           <div className="shell school__grid">
             <Reveal className="school__image">
-              <img src={roadImage} alt="A Martley's coach travelling across the Midlands" />
+              <img src={schoolBusImage} alt="Red school bus outside a school" />
             </Reveal>
             <Reveal className="school__copy" delay={90}>
               <p className="eyebrow eyebrow--blue">School transport</p>
@@ -361,7 +403,7 @@ function App() {
               <h3>Trusted by schools and parents across the Midlands.</h3>
             </Reveal>
             <div className="review-grid">
-              {reviews.map((review, index) => (
+              {schoolReviews.map((review, index) => (
                 <Reveal key={review.name} delay={index * 70} className="review">
                   <Review review={review} />
                 </Reveal>
@@ -405,9 +447,10 @@ function App() {
             <Reveal className="route-board" delay={90}>
               <p>Current services</p>
               {routes.map(([number, name]) => (
-                <a key={number} href="https://martleys.com/public-service-routes/">
+                <a key={number} href={routeTimetables[number] || 'https://martleys.com/carlow-to-naas-880/'}>
                   <strong>{number}</strong>
                   <span>{name}</span>
+                  {routeTimetables[number] && <small>PDF timetable</small>}
                   <Arrow />
                 </a>
               ))}
@@ -540,6 +583,20 @@ function App() {
         </section>
       </main>}
 
+      {!isTicketPage && !isCareersPage && <section className="trust" aria-labelledby="testimonials-title">
+        <div className="shell">
+          <Reveal className="trust__intro">
+            <p className="eyebrow eyebrow--blue">Testimonials</p>
+            <h2 id="testimonials-title">Good journeys, remembered.</h2>
+          </Reveal>
+          <div className="review-grid">
+            {otherReviews.map((review, index) => (
+              <Reveal key={review.name} delay={index * 70} className="review"><Review review={review} /></Reveal>
+            ))}
+          </div>
+        </div>
+      </section>}
+
       <footer className="footer">
         <div className="shell footer__grid">
           <div className="footer__brand">
@@ -561,6 +618,7 @@ function App() {
             <a href="https://martleys.com/public-service-routes/">Timetables</a>
             <a href="https://martleys.com/schools-colleges/">Schools &amp; colleges</a>
             <a href="https://martleys.com/accessible-transport/">Accessible transport</a>
+            <a href="/careers/">Careers</a>
           </div>
         </div>
         <div className="shell footer__bottom">
@@ -588,7 +646,7 @@ function App() {
                 const data = new FormData(event.currentTarget);
                 const subject = encodeURIComponent(`Website enquiry: ${journey}`);
                 const body = encodeURIComponent(
-                  `Journey type: ${journey}\nName: ${data.get('name')}\nEmail: ${data.get('email')}\n\nJourney details:\n${data.get('details')}`,
+                  `Journey type: ${journey}\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nTravel to and from: ${data.get('travel-route')}\nTravel dates: ${data.get('travel-dates')}\nPick-up location: ${data.get('pickup-location')}\n\nJourney details:\n${data.get('details')}`,
                 );
                 setQuoteOpen(false);
                 window.location.href = `mailto:info@martleys.com?subject=${subject}&body=${body}`;
@@ -612,6 +670,18 @@ function App() {
               <label>
                 Email address
                 <input name="email" required type="email" autoComplete="email" placeholder="you@example.com" />
+              </label>
+              <label>
+                Travel to and from
+                <input name="travel-route" placeholder="From and destination" />
+              </label>
+              <label>
+                Travel dates
+                <input name="travel-dates" placeholder="Dates or date range" />
+              </label>
+              <label>
+                Pick-up location
+                <input name="pickup-location" placeholder="Town, address or venue" />
               </label>
               <label>
                 Tell us about the journey
