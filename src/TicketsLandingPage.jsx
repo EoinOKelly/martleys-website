@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import schoolBusImage from './assets/martleys-school-bus.webp';
+import concertImage from './assets/martleys-concerts-events.webp';
 import './tickets.css';
 
 // Add another entry here when its booking page is ready.
 const ticketTypes = [
   { title: 'School tickets', image: schoolBusImage, href: '/tickets/school/' },
+  { title: 'Concert tickets', image: concertImage, href: '/tickets/concert/', badge: 'Page preview' },
 ];
 
 export default function TicketsLandingPage() {
@@ -26,11 +28,12 @@ export default function TicketsLandingPage() {
         </header>
         <section aria-label="Ticket types">
           <ul className="ticket-index__grid">
-            {ticketTypes.map(({ title, image, href }) => (
+            {ticketTypes.map(({ title, image, href, badge }) => (
               <li key={href}>
                 <a className="ticket-index__card" href={href}>
                   <img src={image} alt="" />
                   <span className="ticket-index__card-shade" aria-hidden="true" />
+                  {badge && <span className="ticket-index__card-badge">{badge}</span>}
                   <span className="ticket-index__card-content">
                     <strong>{title}</strong>
                     <span className="ticket-index__card-arrow" aria-hidden="true">↗</span>

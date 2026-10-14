@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 import TicketPage from './TicketPage';
 import TicketsLandingPage from './TicketsLandingPage';
+import ConcertTicketPage from './ConcertTicketPage';
 import ServicePage, { servicePages } from './ServicePage';
 import Icon from './TicketIcon';
 import passengerImage from './assets/martleys-passengers-live.webp';
@@ -186,7 +187,7 @@ function containDialogFocus(event) {
   }
 }
 
-const sitePages = /^\/(?:(?:tickets(?:\/school)?|careers|accessible-transport|tours|festival-shuttles|concerts-events|carlow-service)\/?)?$/;
+const sitePages = /^\/(?:(?:tickets(?:\/(?:school|concert))?|careers|accessible-transport|tours|festival-shuttles|concerts-events|carlow-service)\/?)?$/;
 const isSamePage = (a, b) => a.pathname === b.pathname && a.search === b.search;
 
 function scrollToLocation(url, savedScroll, behavior) {
@@ -268,8 +269,9 @@ function App() {
   const isTicketPage = /^\/tickets\/?$/.test(location.pathname);
   const isSchoolTicketPage = /^\/tickets\/school\/?$/.test(location.pathname)
     || (isTicketPage && new URLSearchParams(location.search).get('service') === 'school');
+  const isConcertTicketPage = /^\/tickets\/concert\/?$/.test(location.pathname);
   const isTicketsLandingPage = isTicketPage && !isSchoolTicketPage;
-  const isTicketsSection = isTicketPage || isSchoolTicketPage;
+  const isTicketsSection = isTicketPage || isSchoolTicketPage || isConcertTicketPage;
   const isCareersPage = /^\/careers\/?$/.test(location.pathname);
   const servicePage = servicePages[location.pathname.endsWith('/') ? location.pathname : location.pathname + '/'];
   const isHomePage = !isTicketsSection && !isCareersPage && !servicePage;
@@ -495,7 +497,7 @@ function App() {
       </dialog>
 
       <div className={isHomePage ? 'home-site' : undefined}>
-      {isSchoolTicketPage ? <TicketPage /> : isTicketsLandingPage ? <TicketsLandingPage /> : servicePage ? <ServicePage page={servicePage} onQuote={openQuote} /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
+      {isSchoolTicketPage ? <TicketPage /> : isConcertTicketPage ? <ConcertTicketPage /> : isTicketsLandingPage ? <TicketsLandingPage /> : servicePage ? <ServicePage page={servicePage} onQuote={openQuote} /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
         <section className="intro">
           <div className="shell intro__grid">
             <Reveal>

@@ -8,6 +8,7 @@
 .ticket-index__card { display: block; position: relative; min-height: 350px; overflow: hidden; background: var(--navy); color: var(--white); }
 .ticket-index__card img { width: 100%; height: 350px; object-fit: cover; object-position: center 58%; transition: transform .45s var(--ease); }
 .ticket-index__card-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,35,57,0) 28%, rgba(11,35,57,.84) 100%); }
+.ticket-index__card-badge { position: absolute; top: 20px; left: 20px; padding: 7px 10px; background: #fff; color: var(--navy); font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
 .ticket-index__card-content { position: absolute; right: 25px; bottom: 25px; left: 25px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .ticket-index__card-content strong { font-size: clamp(22px, 2vw, 29px); line-height: 1.1; }
 .ticket-index__card-arrow { display: grid; place-items: center; width: 44px; height: 44px; flex: 0 0 auto; border: 1px solid rgba(255,255,255,.85); font-size: 22px; }
