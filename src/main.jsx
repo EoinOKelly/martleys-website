@@ -104,7 +104,7 @@ const reviews = [
 const activeEventNotice = {
   enabled: true,
   label: 'Festival travel',
-  message: 'Electric Picnic and Forest Fest updates',
+  message: 'Shuttle routes and travel information',
   href: '/festival-shuttles/',
 };
 

@@ -4,10 +4,8 @@ import toursImage from './assets/martleys-the-heath-tour.webp';
 import festivalsImage from './assets/martleys-festival-shuttles.webp';
 import eventsImage from './assets/martleys-concerts-events.webp';
 import collegeImage from './assets/martleys-college-commute.webp';
+import CarlowTimetable from './CarlowTimetable';
 import './service-pages.css';
-
-const timetableOut = 'https://martleys.com/wp-content/uploads/Martleys-schoolcollege-timetables_page-0001-724x1024.jpg';
-const timetableBack = 'https://martleys.com/wp-content/uploads/Martleys-schoolcollege-timetables_page-0002-1-724x1024.jpg';
 
 export const servicePages = {
   '/accessible-transport/': {
@@ -17,8 +15,8 @@ export const servicePages = {
     lead: 'Comfortable group journeys with access planned around every passenger.',
     image: accessibleImage,
     imageAlt: 'A Martley’s accessible coach ready for passengers',
-    intro: 'Our accessible minibuses, buses and coaches offer flexible seating for groups of different sizes. Specially adapted vehicles include wheelchair lifts and secure tie-downs, with capacity for up to 11 wheelchair users on selected buses.',
-    points: ['Wheelchair lifts and secure tie-downs', 'Flexible seating for groups', 'Tours and private door-to-door travel'],
+    intro: 'Our accessible minibuses, buses and coaches offer flexible seating for groups of different sizes. Specially adapted vehicles include wheelchair lifts and secure tie-downs, with capacity for up to 11 wheelchair users on selected buses. We can arrange scenic tours or private door-to-door group travel around your needs.',
+    points: ['Wheelchair lifts and secure tie-downs', 'Up to 11 wheelchair spaces on selected vehicles', 'Flexible seating for groups and tours'],
     note: 'Tell us about your group, journey and access needs so we can recommend the right vehicle and plan a comfortable trip.',
     action: { label: 'Ask about accessible travel', type: 'quote', journey: 'Accessible travel' },
   },
@@ -41,8 +39,8 @@ export const servicePages = {
     lead: 'Leave the parking behind and enjoy the journey there and back.',
     image: festivalsImage,
     imageAlt: 'Festival shuttle passengers travelling together',
-    intro: 'Martley’s runs shuttle services for local festivals including Electric Picnic and Forest Fest. Pickup points, schedules and tickets vary by event, so check the current event details before you travel.',
-    points: ['Festival journeys from Portlaoise', 'Return travel for selected events', 'Shuttles for festival organisers'],
+    intro: 'Martley’s runs shuttles to Electric Picnic, Forest Fest and The Greenfields Festival from Portlaoise, with selected routes from other locations. Services offer return journeys during the event so you can enjoy the day without worrying about parking or driving home. Pickup points, schedules and tickets vary by festival.',
+    points: ['Electric Picnic, Forest Fest and Greenfields', 'Routes from Portlaoise and selected other locations', 'Festival shuttles for organisers'],
     note: 'Organising a festival or need a shuttle for your group? Tell us the location, dates and expected passenger numbers.',
     action: { label: 'Ask about a festival shuttle', type: 'quote', journey: 'Concerts & festivals' },
   },
@@ -65,9 +63,9 @@ export const servicePages = {
     lead: 'A daily connection for students and commuters travelling to Carlow and its colleges.',
     image: collegeImage,
     imageAlt: 'Martley’s commuter coach on the road',
-    intro: 'Our Carlow service offers convenient pickup and drop-off points for your daily journey. A new timetable began on 7 September 2026. Check the timetable below before you travel.',
-    points: ['Pay on the bus with cash, card or TFI Leap Card', 'Single, return and weekly fares', 'No website registration or advance ticket purchase needed'],
-    note: 'Young Adult and Student TFI Leap Card holders can receive 50% off these fares. Your card must have Travel Credit available for payment on the bus.',
+    intro: 'Travel between Mountmellick, Portlaoise, Stradbally and Carlow, with stops at SETU Carlow and Carlow Institute of Further Education. The current service and timetable began on 7 September 2026.',
+    points: ['Pay on board with cash, credit card, debit card or TFI Leap Card', 'Single, return and weekly fares', 'No online registration or advance ticket purchase'],
+    note: 'Need help finding the right stop or understanding a fare? Our Portlaoise team can help before you travel.',
     action: { label: 'View the timetable', type: 'anchor', href: '#carlow-timetable' },
   },
 };
@@ -100,19 +98,16 @@ export default function ServicePage({ page, onQuote }) {
           <div className="service-page__points">{page.points.map((point, index) => <div key={point}><span>0{index + 1}</span><p>{point}</p></div>)}</div>
         </section>
         {isCarlow && <section id="carlow-timetable" className="service-page__carlow" aria-labelledby="carlow-title">
-          <div className="service-page__section-head"><p className="service-page__eyebrow">Plan your trip</p><h2 id="carlow-title" className="h-sub">Fares &amp; <em>timetable.</em></h2><p>Timetable updated 9 September 2026. Pay on board; website booking is no longer required.</p></div>
+          <div className="service-page__section-head"><p className="service-page__eyebrow">Plan your trip</p><h2 id="carlow-title" className="h-sub">Fares &amp; <em>timetable.</em></h2><p>Monday to Friday service. Timetable updated 9 September 2026. Pay on board; website booking is no longer required.</p></div>
           <div className="service-page__fares">
             <div className="service-page__fare-table"><table><caption>Carlow commuter fares</caption><thead><tr><th scope="col">Ticket</th><th scope="col">Standard</th><th scope="col">Student / Young Adult Leap</th></tr></thead><tbody>
               <tr><th scope="row">Single</th><td>€12</td><td>€6</td></tr>
               <tr><th scope="row">Return</th><td>€18</td><td>€9</td></tr>
               <tr><th scope="row">Weekly</th><td>€60</td><td>€30</td></tr>
             </tbody></table></div>
-            <aside><strong>Using a TFI Leap Card?</strong><p>The Young Adult card is for ages 19–25. Student card eligibility depends on age and full-time study. Top up with Travel Credit before boarding.</p><a href="https://about.leapcard.ie/">Check Leap Card eligibility <Arrow /></a></aside>
+            <aside><strong>Paying with a TFI Leap Card?</strong><p>Young Adult cards are for ages 19–25. Student cards are for those aged 16–18 or 26 and over in full-time education or training of at least 15 hours a week. Add Travel Credit before boarding to receive the 50% fare.</p><a href="https://about.leapcard.ie/">Apply for a Leap Card <Arrow /></a><a href="https://www.leapcard.ie/">Top up Travel Credit <Arrow /></a></aside>
           </div>
-          <div className="service-page__timetables">
-            <a href={timetableOut}><img src={timetableOut} width="724" height="1024" loading="lazy" alt="Carlow commuter timetable, outward journey" /><span>View outward timetable <Arrow /></span></a>
-            <a href={timetableBack}><img src={timetableBack} width="724" height="1024" loading="lazy" alt="Carlow commuter timetable, return journey" /><span>View return timetable <Arrow /></span></a>
-          </div>
+          <CarlowTimetable />
         </section>}
         <aside className="service-page__contact">
           <div><p className="service-page__eyebrow">Need a hand?</p><h2 className="h-sub">Let’s talk about <em>your journey.</em></h2><p>{page.note}</p></div>
