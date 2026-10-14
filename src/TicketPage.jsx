@@ -26,7 +26,7 @@ export default function TicketPage() {
     <main id="top" tabIndex="-1" className="school-tickets">
       <div className="shell school-tickets__shell">
         <nav className="ticket-breadcrumb" aria-label="Breadcrumb">
-          <a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">School tickets</span>
+          <a href="/">Home</a><span aria-hidden="true">/</span><a href="/tickets/">All tickets</a><span aria-hidden="true">/</span><span aria-current="page">School tickets</span>
         </nav>
         <div className="school-tickets__hero">
           <div className="school-tickets__intro">

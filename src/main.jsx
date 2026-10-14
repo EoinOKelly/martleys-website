@@ -3,6 +3,7 @@ import { flushSync } from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 import TicketPage from './TicketPage';
+import TicketsLandingPage from './TicketsLandingPage';
 import ServicePage, { servicePages } from './ServicePage';
 import Icon from './TicketIcon';
 import passengerImage from './assets/martleys-passengers-live.webp';
@@ -111,7 +112,7 @@ const activeEventNotice = {
 const highlightNotice = {
   label: 'School registrations',
   message: 'Now open for the new term',
-  href: '/tickets/',
+  href: '/tickets/school/',
 };
 
 const schoolReviews = reviews.filter((review) => /St\. Mary|Gaelscoil Phortlaoise|school transportation needs/i.test(review.name + review.quote));
@@ -185,7 +186,7 @@ function containDialogFocus(event) {
   }
 }
 
-const sitePages = /^\/(?:(?:tickets|careers|accessible-transport|tours|festival-shuttles|concerts-events|carlow-service)\/?)?$/;
+const sitePages = /^\/(?:(?:tickets(?:\/school)?|careers|accessible-transport|tours|festival-shuttles|concerts-events|carlow-service)\/?)?$/;
 const isSamePage = (a, b) => a.pathname === b.pathname && a.search === b.search;
 
 function scrollToLocation(url, savedScroll, behavior) {
@@ -265,9 +266,13 @@ function App() {
     setServicesOpen(false);
   });
   const isTicketPage = /^\/tickets\/?$/.test(location.pathname);
+  const isSchoolTicketPage = /^\/tickets\/school\/?$/.test(location.pathname)
+    || (isTicketPage && new URLSearchParams(location.search).get('service') === 'school');
+  const isTicketsLandingPage = isTicketPage && !isSchoolTicketPage;
+  const isTicketsSection = isTicketPage || isSchoolTicketPage;
   const isCareersPage = /^\/careers\/?$/.test(location.pathname);
   const servicePage = servicePages[location.pathname.endsWith('/') ? location.pathname : location.pathname + '/'];
-  const isHomePage = !isTicketPage && !isCareersPage && !servicePage;
+  const isHomePage = !isTicketsSection && !isCareersPage && !servicePage;
   const homeLink = (anchor) => isHomePage ? anchor : `/${anchor}`;
   const [journey, setJourney] = useState('Private hire');
   const [fleetPaused, setFleetPaused] = useState(false);
@@ -432,8 +437,8 @@ function App() {
             <a className="nav__link" href={homeLink('#contact')}>Contact</a>
           </nav>
           <div className="header__actions">
-            <a className="header__tickets" href="/tickets/" aria-current={isTicketPage ? 'page' : undefined}>
-              <Icon name="school" /> School tickets
+            <a className="header__tickets" href="/tickets/" aria-current={isTicketsSection ? 'page' : undefined}>
+              <Icon name="event" /> Buy tickets
             </a>
             <button className="header__quote" type="button" onClick={() => openQuote()}>Get a quote <Arrow /></button>
           </div>
@@ -482,7 +487,7 @@ function App() {
               <a href={homeLink('#fleet')} onClick={closeMenu}>Our fleet</a>
               <a href="/careers/" onClick={closeMenu}>Careers</a>
               <a href={homeLink('#contact')} onClick={closeMenu}>Contact</a>
-              <a href="/tickets/" onClick={closeMenu}>School tickets</a>
+              <a href="/tickets/" onClick={closeMenu}>All tickets</a>
             </div>
             <button className="button button--sky" onClick={() => openQuote()}>Get a quote <Arrow /></button>
             <a className="drawer__phone" href="tel:+353578620888">057 862 0888</a>
@@ -490,7 +495,7 @@ function App() {
       </dialog>
 
       <div className={isHomePage ? 'home-site' : undefined}>
-      {isTicketPage ? <TicketPage /> : servicePage ? <ServicePage page={servicePage} onQuote={openQuote} /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
+      {isSchoolTicketPage ? <TicketPage /> : isTicketsLandingPage ? <TicketsLandingPage /> : servicePage ? <ServicePage page={servicePage} onQuote={openQuote} /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
         <section className="intro">
           <div className="shell intro__grid">
             <Reveal>
@@ -516,7 +521,7 @@ function App() {
               <p className="hero__lead">The trusted local travel partner for the Midlands and beyond.</p>
               <div className="hero__actions" ref={heroActions}>
                 <button className="button" type="button" onClick={() => openQuote()}>Get a quote <Arrow /></button>
-                <a className="hero__ticket" href="/tickets/"><Icon name="school" /> School tickets</a>
+                <a className="hero__ticket" href="/tickets/school/"><Icon name="school" /> School tickets</a>
                 <a className="hero__ticket" href="/carlow-service/"><Icon name="college" /> Carlow service</a>
               </div>
             </div>
@@ -585,7 +590,7 @@ function App() {
               </ul>
               <div className="actions">
                 <a className="button" href="https://martleys.com/student-registration/">Register a student <Arrow /></a>
-                <a className="inline-link" href="/tickets/">Buy school tickets <Arrow /></a>
+                <a className="inline-link" href="/tickets/school/">Buy school tickets <Arrow /></a>
               </div>
             </div>
           </div>
@@ -780,7 +785,7 @@ function App() {
         <div className="shell footer__grid">
           <div className="footer__brand">
             <Mark light />
-            <p>{isTicketPage ? 'Family-run coach travel from Portlaoise. Familiar roads, experienced drivers and a welcome on board.' : 'A large range of excellently maintained buses and coaches, driven by experienced, capable and responsible drivers.'}</p>
+            <p>{isTicketsSection ? 'Family-run coach travel from Portlaoise. Familiar roads, experienced drivers and a welcome on board.' : 'A large range of excellently maintained buses and coaches, driven by experienced, capable and responsible drivers.'}</p>
           </div>
           <div>
             <p>Contact</p>
@@ -793,7 +798,7 @@ function App() {
           </div>
           <div>
             <p>Explore</p>
-            <a href="/tickets/">School tickets</a>
+            <a href="/tickets/">All tickets</a>
             <a href="https://martleys.com/public-service-routes/">Timetables</a>
             <a href="/carlow-service/">Carlow service</a>
             <a href="/accessible-transport/">Accessible transport</a>
