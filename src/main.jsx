@@ -3,6 +3,7 @@ import { flushSync } from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 import TicketPage from './TicketPage';
+import ServicePage, { servicePages } from './ServicePage';
 import Icon from './TicketIcon';
 import passengerImage from './assets/martleys-passengers-live.webp';
 import collegeCommuteImage from './assets/martleys-college-commute.webp';
@@ -45,13 +46,13 @@ const routeTimetables = {
 
 const services = [
   { title: 'School transport', copy: 'Safe, trusted daily school runs around Portlaoise and Mountrath.', image: schoolBusImage, pos: 'center 58%', href: '#school' },
-  { title: 'College commute', copy: 'Reliable travel to Carlow colleges for students and commuters.', image: passengerImage, pos: '50% center', href: '#college' },
-  { title: 'Tours', copy: 'Tours within Ireland, or travel with us to Europe and the UK.', image: heathImage, pos: '60% center', href: '#tours' },
+  { title: 'College commute', copy: 'Reliable travel to Carlow colleges for students and commuters.', image: passengerImage, pos: '50% center', href: '/carlow-service/' },
+  { title: 'Tours', copy: 'Tours within Ireland, or travel with us to Europe and the UK.', image: heathImage, pos: '60% center', href: '/tours/' },
   { title: 'Public routes', copy: 'Comfortable local connections in partnership with NTA and TFI Local Link.', image: publicRoutesImage, pos: 'center', href: '#routes' },
   { title: 'Private hire', copy: 'Your group, your plan—from minibuses to a full coach.', image: coachImage, pos: 'center', href: '#private' },
-  { title: 'Concerts & events', copy: 'Easy rides to Aviva, Croke Park, 3Arena and more.', image: concertsEventsImage, pos: '60% center', href: 'https://martleys.com/festivals-concerts/' },
-  { title: 'Festival shuttles', copy: 'To and from Electric Picnic, Forest Fest and local festivals.', image: festivalShuttlesImage, pos: '80% center', href: 'https://martleys.com/festivals-concerts/' },
-  { title: 'Accessible travel', copy: 'Wheelchair-adapted coaches so more people can go further.', image: accessibleTravelImage, pos: 'center', href: 'https://martleys.com/accessible-transport/' },
+  { title: 'Concerts & events', copy: 'Easy rides to Aviva, Croke Park, 3Arena and more.', image: concertsEventsImage, pos: '60% center', href: '/concerts-events/' },
+  { title: 'Festival shuttles', copy: 'To and from Electric Picnic, Forest Fest and local festivals.', image: festivalShuttlesImage, pos: '80% center', href: '/festival-shuttles/' },
+  { title: 'Accessible travel', copy: 'Wheelchair-adapted coaches so more people can go further.', image: accessibleTravelImage, pos: 'center', href: '/accessible-transport/' },
 ];
 
 const serviceGroups = [
@@ -104,13 +105,13 @@ const activeEventNotice = {
   enabled: true,
   label: 'Festival travel',
   message: 'Electric Picnic and Forest Fest updates',
-  href: '#travel-updates',
+  href: '/festival-shuttles/',
 };
 
 const highlightNotice = {
   label: 'School registrations',
   message: 'Now open for the new term',
-  href: 'https://martleys.com/schools-colleges/',
+  href: '/tickets/',
 };
 
 const schoolReviews = reviews.filter((review) => /St\. Mary|Gaelscoil Phortlaoise|school transportation needs/i.test(review.name + review.quote));
@@ -184,7 +185,7 @@ function containDialogFocus(event) {
   }
 }
 
-const sitePages = /^\/(?:(?:tickets|careers)\/?)?$/;
+const sitePages = /^\/(?:(?:tickets|careers|accessible-transport|tours|festival-shuttles|concerts-events|carlow-service)\/?)?$/;
 const isSamePage = (a, b) => a.pathname === b.pathname && a.search === b.search;
 
 function scrollToLocation(url, savedScroll, behavior) {
@@ -265,8 +266,9 @@ function App() {
   });
   const isTicketPage = /^\/tickets\/?$/.test(location.pathname);
   const isCareersPage = /^\/careers\/?$/.test(location.pathname);
-  const isHomePage = !isTicketPage && !isCareersPage;
-  const homeLink = (anchor) => isTicketPage || isCareersPage ? `/${anchor}` : anchor;
+  const servicePage = servicePages[location.pathname.endsWith('/') ? location.pathname : location.pathname + '/'];
+  const isHomePage = !isTicketPage && !isCareersPage && !servicePage;
+  const homeLink = (anchor) => isHomePage ? anchor : `/${anchor}`;
   const [journey, setJourney] = useState('Private hire');
   const [fleetPaused, setFleetPaused] = useState(false);
   const [showActionBar, setShowActionBar] = useState(false);
@@ -431,7 +433,7 @@ function App() {
           </nav>
           <div className="header__actions">
             <a className="header__tickets" href="/tickets/" aria-current={isTicketPage ? 'page' : undefined}>
-              <Icon name="event" /> Buy tickets
+              <Icon name="school" /> School tickets
             </a>
             <button className="header__quote" type="button" onClick={() => openQuote()}>Get a quote <Arrow /></button>
           </div>
@@ -463,23 +465,24 @@ function App() {
                 <summary>Services</summary>
                 <div className="drawer__service-links">
                   <a href={homeLink('#school')} onClick={closeMenu}>School transport</a>
-                  <a href={homeLink('#college')} onClick={closeMenu}>College commute</a>
+                  <a href="/carlow-service/" onClick={closeMenu}>College commute</a>
                   <a href={homeLink('#routes')} onClick={closeMenu}>Public routes</a>
-                  <a href="https://martleys.com/accessible-transport/" onClick={closeMenu}>Accessible transport</a>
+                  <a href="/accessible-transport/" onClick={closeMenu}>Accessible transport</a>
                   <a href={homeLink('#private')} onClick={closeMenu}>Private hire</a>
-                  <a href={homeLink('#tours')} onClick={closeMenu}>Tours</a>
-                  <a href="https://martleys.com/festivals-concerts/" onClick={closeMenu}>Concerts &amp; events</a>
+                  <a href="/tours/" onClick={closeMenu}>Tours</a>
+                  <a href="/concerts-events/" onClick={closeMenu}>Concerts &amp; events</a>
+                  <a href="/festival-shuttles/" onClick={closeMenu}>Festival shuttles</a>
                 </div>
               </details>
               <a href={homeLink('#school')} onClick={closeMenu}>Schools &amp; colleges</a>
               <a href={homeLink('#routes')} onClick={closeMenu}>Public routes</a>
-              <a href={homeLink('#travel-updates')} onClick={closeMenu}>Travel updates</a>
+              <a href="/festival-shuttles/" onClick={closeMenu}>Festival shuttles</a>
               <a href={homeLink('#private')} onClick={closeMenu}>Private hire</a>
               <a href={homeLink('#about')} onClick={closeMenu}>About</a>
               <a href={homeLink('#fleet')} onClick={closeMenu}>Our fleet</a>
               <a href="/careers/" onClick={closeMenu}>Careers</a>
               <a href={homeLink('#contact')} onClick={closeMenu}>Contact</a>
-              <a href="/tickets/" onClick={closeMenu}>Buy tickets</a>
+              <a href="/tickets/" onClick={closeMenu}>School tickets</a>
             </div>
             <button className="button button--sky" onClick={() => openQuote()}>Get a quote <Arrow /></button>
             <a className="drawer__phone" href="tel:+353578620888">057 862 0888</a>
@@ -487,7 +490,7 @@ function App() {
       </dialog>
 
       <div className={isHomePage ? 'home-site' : undefined}>
-      {isTicketPage ? <TicketPage key={location.search} /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
+      {isTicketPage ? <TicketPage /> : servicePage ? <ServicePage page={servicePage} onQuote={openQuote} /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
         <section className="intro">
           <div className="shell intro__grid">
             <Reveal>
@@ -513,8 +516,8 @@ function App() {
               <p className="hero__lead">The trusted local travel partner for the Midlands and beyond.</p>
               <div className="hero__actions" ref={heroActions}>
                 <button className="button" type="button" onClick={() => openQuote()}>Get a quote <Arrow /></button>
-                <a className="hero__ticket" href="/tickets/?service=school"><Icon name="school" /> School tickets</a>
-                <a className="hero__ticket" href="/tickets/?service=college"><Icon name="college" /> College tickets</a>
+                <a className="hero__ticket" href="/tickets/"><Icon name="school" /> School tickets</a>
+                <a className="hero__ticket" href="/carlow-service/"><Icon name="college" /> Carlow service</a>
               </div>
             </div>
           </div>
@@ -546,7 +549,7 @@ function App() {
             <ul className="service-grid">
               {services.map((service) => (
                 <li key={service.title} className="service-tile">
-                  <a id={service.title === 'Tours' ? 'tours' : undefined} href={service.href}>
+                  <a href={service.href}>
                     <img src={service.image} loading="lazy" alt="" style={{ objectPosition: service.pos }} />
                     <span className="service-tile__shade" />
                     <span className="service-tile__content">
@@ -581,8 +584,8 @@ function App() {
                 <li>Daily, weekly, term and annual ticket options, with sibling discounts</li>
               </ul>
               <div className="actions">
-                <a className="button" href="https://martleys.com/schools-colleges/">Register a student <Arrow /></a>
-                <a className="inline-link" href="/tickets/?service=school">Buy school tickets <Arrow /></a>
+                <a className="button" href="https://martleys.com/student-registration/">Register a student <Arrow /></a>
+                <a className="inline-link" href="/tickets/">Buy school tickets <Arrow /></a>
               </div>
             </div>
           </div>
@@ -602,15 +605,13 @@ function App() {
               <h2 className="h-section">A better start to <em>your day.</em></h2>
               <p>We provide a comfortable, reliable and affordable daily commuter service to South East Technological University (SETU), Carlow Institute (CIT) and Carlow College St Patrick’s, with convenient pick-up and drop-off points to suit your schedule. Designed with students and commuters in mind, our service makes the journey stress-free.</p>
               <ul className="checklist checklist--single">
-                <li>50% off for Young Adult Leap Card (YAC) holders</li>
+                <li>50% off for eligible Student and Young Adult TFI Leap Card holders</li>
                 <li>Single, return and weekly ticket options</li>
                 <li>Fully RSA compliant buses and drivers</li>
                 <li>Comfortable, clean and regularly serviced vehicles</li>
               </ul>
               <div className="actions">
-                <a className="button" href="https://martleys.com/schools-colleges/">View timetable <Arrow /></a>
-                <a className="inline-link" href="/tickets/?service=college">Buy college commute tickets <Arrow /></a>
-                <a className="inline-link" href="https://martleys.com/schools-colleges/">Register a student <Arrow /></a>
+                <a className="button" href="/carlow-service/">Fares and timetable <Arrow /></a>
               </div>
             </div>
             <div className="college__image">
@@ -648,7 +649,7 @@ function App() {
           <div className="shell updates__inner">
             <h2 className="h-section">Concerts, festivals <em>and service news.</em></h2>
             <p>Find ticket links, pickup points, times and important travel information for upcoming events.</p>
-            <a className="button button--outline" href="https://martleys.com/festivals-concerts/">View latest updates <Arrow /></a>
+            <a className="button button--outline" href="/festival-shuttles/">Festival travel <Arrow /></a>
           </div>
         </section>
 
@@ -792,10 +793,13 @@ function App() {
           </div>
           <div>
             <p>Explore</p>
-            <a href="/tickets/">Buy tickets</a>
+            <a href="/tickets/">School tickets</a>
             <a href="https://martleys.com/public-service-routes/">Timetables</a>
-            <a href="https://martleys.com/schools-colleges/">Schools &amp; colleges</a>
-            <a href="https://martleys.com/accessible-transport/">Accessible transport</a>
+            <a href="/carlow-service/">Carlow service</a>
+            <a href="/accessible-transport/">Accessible transport</a>
+            <a href="/tours/">Tours</a>
+            <a href="/festival-shuttles/">Festival shuttles</a>
+            <a href="/concerts-events/">Concerts &amp; events</a>
             <a href="/careers/">Careers</a>
           </div>
         </div>
