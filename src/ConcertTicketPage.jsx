@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ArrowDownLeft, ArrowUpRight } from 'lucide-react';
 import concertImage from './assets/martleys-concerts-events.webp';
 import './concert-tickets.css';
 
@@ -81,14 +82,14 @@ export default function ConcertTicketPage() {
               <ol className="concert-ticket__timetable">
                 {event.stops.map((item) => <li key={item.name}><time>{item.time}</time><div><strong>{item.name}</strong><span>{item.town}{item.note ? ` · ${item.note}` : ''}</span></div></li>)}
               </ol>
-              <div className="concert-ticket__return"><span className="concert-ticket__return-icon" aria-hidden="true">↙</span><div><strong>Return after the show · {event.returnTime}</strong><p>Departs from {event.returnStop}, {event.returnStopId}. The coach stops in Monasterevin and Portlaoise on the way back.</p></div></div>
+              <div className="concert-ticket__return"><span className="concert-ticket__return-icon" aria-hidden="true"><ArrowDownLeft size={23} strokeWidth={1.7} /></span><div><strong>Return after the show · {event.returnTime}</strong><p>Departs from {event.returnStop}, {event.returnStopId}. The coach stops in Monasterevin and Portlaoise on the way back.</p></div></div>
             </section>
 
             <section className="concert-ticket__section concert-ticket__help" aria-labelledby="help-title">
               <p className="concert-ticket__eyebrow">Good to know</p>
               <h2 id="help-title" className="h-sub">Questions before <em>you travel?</em></h2>
               <p>Online booking for this sample service closed at 12 noon on Thursday 23 April 2026. Check your selected pickup time and arrive a few minutes early. Contact our team if you need help with the return pickup or have an accessibility question.</p>
-              <a href="tel:+353578620888">Call 057 862 0888 <span aria-hidden="true">↗</span></a>
+              <a href="tel:+353578620888">Call 057 862 0888 <ArrowUpRight size={20} strokeWidth={1.7} aria-hidden="true" /></a>
             </section>
           </div>
 

@@ -62,7 +62,7 @@
 .ticket-passengers strong { color: var(--navy); font-size: 14px; font-weight: 700; }
 .ticket-passengers span { color: var(--muted); font-size: 14px; }
 .ticket-counter { display: flex; align-items: center; gap: 16px; }
-.ticket-counter button { width: 44px; height: 44px; padding: 0; border: 1px solid #b9d3ec; background: var(--white); color: var(--navy); font-size: 22px; }
+.ticket-counter button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid #b9d3ec; background: var(--white); color: var(--navy); }
 .ticket-counter button:disabled { color: var(--muted); background: var(--sky-soft); cursor: default; }
 .ticket-counter button:not(:disabled):hover { background: var(--sky-soft); border-color: var(--blue-ink); }
 .ticket-counter output { min-width: 16px; text-align: center; font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }

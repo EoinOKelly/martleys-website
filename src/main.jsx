@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { createRoot } from 'react-dom/client';
+import { ArrowDown, ArrowRight, Check, Menu, Minus, Plus, Quote, X } from 'lucide-react';
 import './styles.css';
 import TicketPage from './TicketPage';
 import ServicePage, { servicePages } from './ServicePage';
-import Icon from './TicketIcon';
+import Icon from './SiteIcon';
 import passengerImage from './assets/martleys-passengers-live.webp';
 import collegeCommuteImage from './assets/martleys-college-commute.webp';
 import concertsEventsImage from './assets/martleys-concerts-events.webp';
@@ -118,7 +119,7 @@ const schoolReviews = reviews.filter((review) => /St\. Mary|Gaelscoil Phortlaois
 const otherReviews = reviews.filter((review) => !schoolReviews.includes(review));
 
 function Arrow() {
-  return <span className="arrow" aria-hidden="true">→</span>;
+  return <ArrowRight className="arrow" size={20} strokeWidth={1.7} aria-hidden="true" />;
 }
 
 function Mark({ light = false }) {
@@ -159,6 +160,7 @@ function Review({ review }) {
 
   return (
     <>
+      <Quote className="review__icon" size={34} strokeWidth={1.7} aria-hidden="true" />
       <blockquote ref={quote} className={expanded ? 'is-expanded' : ''}>“{review.quote}”</blockquote>
       {(clamped || expanded) && (
         <button className="review__toggle" type="button" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>
@@ -449,7 +451,7 @@ function App() {
             aria-haspopup="dialog"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <i /><i /><i />
+            <Menu size={22} strokeWidth={1.7} aria-hidden="true" />
           </button>
         </div>
       </header>
@@ -461,11 +463,11 @@ function App() {
           <nav className="drawer" aria-label="Mobile navigation" onClick={(event) => event.stopPropagation()}>
             <div className="drawer__top">
               <Mark light />
-              <button type="button" className="drawer__close" onClick={closeMenu} aria-label="Close menu">×</button>
+              <button type="button" className="drawer__close" onClick={closeMenu} aria-label="Close menu"><X size={28} strokeWidth={1.7} aria-hidden="true" /></button>
             </div>
             <div className="drawer__links">
               <details className="drawer__services">
-                <summary>Services</summary>
+                <summary>Services <Plus className="drawer__services-plus" size={20} strokeWidth={1.7} aria-hidden="true" /><Minus className="drawer__services-minus" size={20} strokeWidth={1.7} aria-hidden="true" /></summary>
                 <div className="drawer__service-links">
                   <a href={homeLink('#school')} onClick={closeMenu}>School transport</a>
                   <a href="/carlow-service/" onClick={closeMenu}>College commute</a>
@@ -525,7 +527,7 @@ function App() {
           </div>
           <a className="hero__scroll" href="#welcome" aria-label="Explore Martley's">
             <span>Explore</span>
-            <i />
+            <ArrowDown size={22} strokeWidth={1.7} aria-hidden="true" />
           </a>
         </section>
 
@@ -576,14 +578,14 @@ function App() {
                 For generations, local families and schools have trusted Martley’s to transport their children safely. We operate daily school runs around Portlaoise and Mountrath, and work directly with teachers and coordinators to tailor transport for school tours and outings, giving parents, teachers and students peace of mind, every day.
               </p>
               <ul className="checklist">
-                <li>All Portlaoise schools and Mountrath Community School</li>
-                <li>School runs serving all Portlaoise housing estates</li>
-                <li>Licensed National Transport Authority school services</li>
-                <li>Fully RSA compliant buses and drivers</li>
-                <li>Garda-vetted drivers and escorts</li>
-                <li>Comfortable, clean and regularly serviced vehicles</li>
-                <li>Seatbelts across the fleet</li>
-                <li>Daily, weekly, term and annual ticket options, with sibling discounts</li>
+                <li><Check aria-hidden="true" />All Portlaoise schools and Mountrath Community School</li>
+                <li><Check aria-hidden="true" />School runs serving all Portlaoise housing estates</li>
+                <li><Check aria-hidden="true" />Licensed National Transport Authority school services</li>
+                <li><Check aria-hidden="true" />Fully RSA compliant buses and drivers</li>
+                <li><Check aria-hidden="true" />Garda-vetted drivers and escorts</li>
+                <li><Check aria-hidden="true" />Comfortable, clean and regularly serviced vehicles</li>
+                <li><Check aria-hidden="true" />Seatbelts across the fleet</li>
+                <li><Check aria-hidden="true" />Daily, weekly, term and annual ticket options, with sibling discounts</li>
               </ul>
               <div className="actions">
                 <a className="button" href="https://martleys.com/student-registration/">Register a student <Arrow /></a>
@@ -607,10 +609,10 @@ function App() {
               <h2 className="h-section">A better start to <em>your day.</em></h2>
               <p>We provide a comfortable, reliable and affordable daily commuter service to South East Technological University (SETU), Carlow Institute (CIT) and Carlow College St Patrick’s, with convenient pick-up and drop-off points to suit your schedule. Designed with students and commuters in mind, our service makes the journey stress-free.</p>
               <ul className="checklist checklist--single">
-                <li>50% off for eligible Student and Young Adult TFI Leap Card holders</li>
-                <li>Single, return and weekly ticket options</li>
-                <li>Fully RSA compliant buses and drivers</li>
-                <li>Comfortable, clean and regularly serviced vehicles</li>
+                <li><Check aria-hidden="true" />50% off for eligible Student and Young Adult TFI Leap Card holders</li>
+                <li><Check aria-hidden="true" />Single, return and weekly ticket options</li>
+                <li><Check aria-hidden="true" />Fully RSA compliant buses and drivers</li>
+                <li><Check aria-hidden="true" />Comfortable, clean and regularly serviced vehicles</li>
               </ul>
               <div className="actions">
                 <a className="button" href="/carlow-service/">Fares and timetable <Arrow /></a>
@@ -820,7 +822,7 @@ function App() {
           if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) setQuoteOpen(false);
         } }}>
           <section>
-            <button className="modal-close" onClick={() => setQuoteOpen(false)} aria-label="Close quote form">×</button>
+            <button className="modal-close" onClick={() => setQuoteOpen(false)} aria-label="Close quote form"><X size={26} strokeWidth={1.7} aria-hidden="true" /></button>
             <h2 id="quote-title" className="h-section">Let’s plan <em>your journey.</em></h2>
             <p>Give us a few details and our local team will be in touch.</p>
             <form

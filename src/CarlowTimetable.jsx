@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import outboundImage from './assets/carlow-timetable-outbound.jpg';
 import returnImage from './assets/carlow-timetable-return.jpg';
 
@@ -79,7 +80,7 @@ export default function CarlowTimetable() {
           <button type="button" aria-pressed={direction === 'outbound'} onClick={() => setDirection('outbound')}>To Carlow</button>
           <button type="button" aria-pressed={direction === 'inbound'} onClick={() => setDirection('inbound')}>From Carlow</button>
         </div>
-        <a href={image} download>Download timetable image <span aria-hidden="true">↗</span></a>
+        <a href={image} download>Download timetable image <ArrowUpRight size={20} strokeWidth={1.7} aria-hidden="true" /></a>
       </div>
       <label className="carlow-schedule__search">Find your stop
         <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="e.g. Kilminchy or SETU" />

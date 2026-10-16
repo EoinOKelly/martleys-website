@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import accessibleImage from './assets/martleys-accessible-travel.webp';
 import toursImage from './assets/martleys-the-heath-tour.webp';
 import festivalsImage from './assets/martleys-festival-shuttles.webp';
@@ -70,7 +71,7 @@ export const servicePages = {
   },
 };
 
-function Arrow() { return <span aria-hidden="true">↗</span>; }
+function Arrow() { return <ArrowUpRight size={20} strokeWidth={1.7} aria-hidden="true" />; }
 
 export default function ServicePage({ page, onQuote }) {
   useEffect(() => {

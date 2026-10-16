@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { LazyMotion, domAnimation, m, MotionConfig, useReducedMotion } from 'motion/react';
+import { Minus, Plus } from 'lucide-react';
 import roadImage from './assets/martleys-road-live.jpg';
-import Icon from './TicketIcon';
+import Icon from './SiteIcon';
 import './tickets.css';
 
 const services = {
@@ -207,10 +208,10 @@ export default function TicketPage({ initialService }) {
                     <div><strong>Passengers</strong><span>Seats to book</span></div>
                     <div className="ticket-counter">
                       <button type="button" disabled={passengers === 1} aria-label="Remove a passenger"
-                        onClick={() => setPassengers((count) => count - 1)}>−</button>
+                        onClick={() => setPassengers((count) => count - 1)}><Minus size={20} strokeWidth={1.7} aria-hidden="true" /></button>
                       <output aria-live="polite" aria-label="Passenger count">{passengers}</output>
                       <button type="button" disabled={passengers === 8} aria-label="Add a passenger"
-                        onClick={() => setPassengers((count) => count + 1)}>+</button>
+                        onClick={() => setPassengers((count) => count + 1)}><Plus size={20} strokeWidth={1.7} aria-hidden="true" /></button>
                     </div>
                   </div>
 

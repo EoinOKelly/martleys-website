@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import schoolBusImage from './assets/martleys-school-bus.webp';
 import concertImage from './assets/martleys-concerts-events.webp';
 import './tickets.css';
@@ -36,7 +37,7 @@ export default function TicketsLandingPage() {
                   {badge && <span className="ticket-index__card-badge">{badge}</span>}
                   <span className="ticket-index__card-content">
                     <strong>{title}</strong>
-                    <span className="ticket-index__card-arrow" aria-hidden="true">↗</span>
+                    <span className="ticket-index__card-arrow" aria-hidden="true"><ArrowUpRight size={22} strokeWidth={1.7} /></span>
                   </span>
                 </a>
               </li>
