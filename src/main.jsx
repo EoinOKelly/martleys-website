@@ -3,8 +3,6 @@ import { flushSync } from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 import TicketPage from './TicketPage';
-import TicketsLandingPage from './TicketsLandingPage';
-import ConcertTicketPage from './ConcertTicketPage';
 import ServicePage, { servicePages } from './ServicePage';
 import Icon from './TicketIcon';
 import passengerImage from './assets/martleys-passengers-live.webp';
@@ -267,10 +265,8 @@ function App() {
     setServicesOpen(false);
   });
   const isTicketPage = /^\/tickets\/?$/.test(location.pathname);
-  const isSchoolTicketPage = /^\/tickets\/school\/?$/.test(location.pathname)
-    || (isTicketPage && new URLSearchParams(location.search).get('service') === 'school');
+  const isSchoolTicketPage = /^\/tickets\/school\/?$/.test(location.pathname);
   const isConcertTicketPage = /^\/tickets\/concert\/?$/.test(location.pathname);
-  const isTicketsLandingPage = isTicketPage && !isSchoolTicketPage;
   const isTicketsSection = isTicketPage || isSchoolTicketPage || isConcertTicketPage;
   const isCareersPage = /^\/careers\/?$/.test(location.pathname);
   const servicePage = servicePages[location.pathname.endsWith('/') ? location.pathname : location.pathname + '/'];
@@ -489,7 +485,7 @@ function App() {
               <a href={homeLink('#fleet')} onClick={closeMenu}>Our fleet</a>
               <a href="/careers/" onClick={closeMenu}>Careers</a>
               <a href={homeLink('#contact')} onClick={closeMenu}>Contact</a>
-              <a href="/tickets/" onClick={closeMenu}>All tickets</a>
+              <a href="/tickets/" onClick={closeMenu}>Buy tickets</a>
             </div>
             <button className="button button--sky" onClick={() => openQuote()}>Get a quote <Arrow /></button>
             <a className="drawer__phone" href="tel:+353578620888">057 862 0888</a>
@@ -497,7 +493,7 @@ function App() {
       </dialog>
 
       <div className={isHomePage ? 'home-site' : undefined}>
-      {isSchoolTicketPage ? <TicketPage /> : isConcertTicketPage ? <ConcertTicketPage /> : isTicketsLandingPage ? <TicketsLandingPage /> : servicePage ? <ServicePage page={servicePage} onQuote={openQuote} /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
+      {isTicketsSection ? <TicketPage key={`${location.pathname}${location.search}`} initialService={isSchoolTicketPage ? 'school' : isConcertTicketPage ? 'events' : undefined} /> : servicePage ? <ServicePage page={servicePage} onQuote={openQuote} /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
         <section className="intro">
           <div className="shell intro__grid">
             <Reveal>
@@ -799,7 +795,7 @@ function App() {
           </div>
           <div>
             <p>Explore</p>
-            <a href="/tickets/">All tickets</a>
+            <a href="/tickets/">Buy tickets</a>
             <a href="https://martleys.com/public-service-routes/">Timetables</a>
             <a href="/carlow-service/">Carlow service</a>
             <a href="/accessible-transport/">Accessible transport</a>
