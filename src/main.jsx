@@ -524,7 +524,6 @@ function App() {
               <div className="hero__actions" ref={heroActions}>
                 <button className="button" type="button" onClick={() => openQuote()}>Get a quote <Arrow /></button>
                 <a className="hero__ticket" href="/tickets/school/"><Icon name="school" /> School tickets</a>
-                <a className="hero__ticket" href="/carlow-service/"><Icon name="college" /> Carlow service</a>
               </div>
             </div>
           </div>
