@@ -11,24 +11,24 @@ import './service-pages.css';
 export const servicePages = {
   '/accessible-transport/': {
     eyebrow: 'Travel for everyone',
-    title: <>Accessible <em>transport.</em></>,
+    title: <>Accessible <em>Transport.</em></>,
     pageTitle: 'Accessible transport',
     lead: 'Comfortable group journeys with access planned around every passenger.',
     image: accessibleImage,
     imageAlt: 'A Martley’s accessible coach ready for passengers',
-    intro: 'Our accessible minibuses, buses and coaches offer flexible seating for groups of different sizes. Specially adapted vehicles include wheelchair lifts and secure tie-downs, with capacity for up to 11 wheelchair users on selected buses. We can arrange scenic tours or private door-to-door group travel around your needs.',
+    intro: 'Martleys is proud to provide a wide range of accessible transport solutions, including specially adapted buses with wheelchair lifts and secure tie-downs that can accommodate up to 11 wheelchair users each, along with additional standard seating. Our fleet of accessible minibuses, buses and coaches is designed to cater to groups of all sizes, with flexible seating configurations ensuring that everyone can travel comfortably and safely. Whether you’re joining us for a scenic tour or arranging private, door-to-door group travel, we aim to make every travel experience seamless, enjoyable, and barrier-free.',
     points: ['Wheelchair lifts and secure tie-downs', 'Up to 11 wheelchair spaces on selected vehicles', 'Flexible seating for groups and tours'],
     note: 'Tell us about your group, journey and access needs so we can recommend the right vehicle and plan a comfortable trip.',
     action: { label: 'Ask about accessible travel', type: 'quote', journey: 'Accessible travel' },
   },
   '/tours/': {
     eyebrow: 'Explore together',
-    title: <>Tours, <em>your way.</em></>,
+    title: <>Tours</>,
     pageTitle: 'Tours',
     lead: 'A great day out starts with a journey everyone can enjoy.',
     image: toursImage,
     imageAlt: 'Martley’s coach on a scenic tour',
-    intro: 'From local days out to longer trips across Ireland, the UK and Europe, our team can help plan group transport around your itinerary. Tell us where you want to go, how many are travelling and the dates you have in mind.',
+    intro: 'Martley’s offers luxury coach hire for guided tours, group holidays, and custom excursions across Ireland, the UK, and continental Europe. Whether you’re organising a multi-day scenic adventure along Ireland’s Wild Atlantic Way, an educational school trip through the UK, or an extended holiday tour into Europe, our modern fleet of 16- to 63-seat coaches delivers exceptional comfort, reliability, and safety. Driven by our team of experienced professional drivers, we handle every detail of your transport so your group can sit back, relax, and focus entirely on creating unforgettable memories along the way.',
     points: ['Day trips and longer tours', 'Group travel shaped around your itinerary', 'A range of minibuses and coaches'],
     note: 'Planning a school outing, club trip or group holiday? We can help you choose the right vehicle and schedule.',
     action: { label: 'Plan a tour', type: 'quote', journey: 'Tours' },
@@ -47,12 +47,12 @@ export const servicePages = {
   },
   '/concerts-events/': {
     eyebrow: 'Big nights, easy journeys',
-    title: <>Be there for <em>the moment.</em></>,
+    title: <>Concerts</>,
     pageTitle: 'Concerts & events',
     lead: 'Travel together to the show, and leave the drive home to us.',
     image: eventsImage,
     imageAlt: 'Martley’s concert and event coach',
-    intro: 'Look out for Martley’s concert buses travelling from Portlaoise, with stops at selected locations along the way. We also arrange private group transport for concerts, sports fixtures and other events.',
+    intro: 'Keep an eye on our social media pages for announcements of concert buses travelling from Portlaoise and stopping in key locations along the way!',
     points: ['Concert buses from Portlaoise', 'Private transport for groups', 'Journey plans tailored to your event'],
     note: 'Planning an event journey? Send the venue, date, passenger count and preferred pickup point to our team.',
     action: { label: 'Plan event travel', type: 'quote', journey: 'Concerts & festivals' },
@@ -64,7 +64,7 @@ export const servicePages = {
     lead: 'A daily connection for students and commuters travelling to Carlow and its colleges.',
     image: collegeImage,
     imageAlt: 'Martley’s commuter coach on the road',
-    intro: 'Travel between Mountmellick, Portlaoise, Stradbally and Carlow, with stops at SETU Carlow and Carlow Institute of Further Education. The current service and timetable began on 7 September 2026.',
+    intro: 'Martley’s provide a comfortable, timely, and affordable daily commuter service to Carlow and Carlow Colleges, with convenient pick-up and drop-off points in Mountmellick, Portlaoise, Stradbally, Arles, Ballickmoyler and Carlow. Designed with students and commuters in mind, our service takes the hassle out of your daily travel to get you where you need to be on time.',
     points: ['Pay on board with cash, credit card, debit card or TFI Leap Card', 'Single, return and weekly fares', 'No online registration or advance ticket purchase'],
     note: 'Need help finding the right stop or understanding a fare? Our Portlaoise team can help before you travel.',
     action: { label: 'View the timetable', type: 'anchor', href: '#carlow-timetable' },
@@ -75,8 +75,8 @@ function Arrow() { return <ArrowUpRight size={20} strokeWidth={1.7} aria-hidden=
 
 export default function ServicePage({ page, onQuote }) {
   useEffect(() => {
-    document.title = page.pageTitle + ' — Martley’s of Portlaoise';
-    return () => { document.title = 'Martley’s — Reliable coaches. Friendly service.'; };
+    document.title = page.pageTitle + ' | Martley’s of Portlaoise';
+    return () => { document.title = 'Martley’s | Reliable coaches. Friendly service.'; };
   }, [page]);
   const isCarlow = page === servicePages['/carlow-service/'];
   return (
@@ -106,7 +106,7 @@ export default function ServicePage({ page, onQuote }) {
               <tr><th scope="row">Return</th><td>€18</td><td>€9</td></tr>
               <tr><th scope="row">Weekly</th><td>€60</td><td>€30</td></tr>
             </tbody></table></div>
-            <aside><strong>Paying with a TFI Leap Card?</strong><p>Young Adult cards are for ages 19–25. Student cards are for those aged 16–18 or 26 and over in full-time education or training of at least 15 hours a week. Add Travel Credit before boarding to receive the 50% fare.</p><a href="https://about.leapcard.ie/">Apply for a Leap Card <Arrow /></a><a href="https://www.leapcard.ie/">Top up Travel Credit <Arrow /></a></aside>
+            <aside><strong>Paying with a TFI Leap Card?</strong><p>Young Adult cards are for ages 19–25. Student cards are for those aged 16–18 or 26 and over in full-time education or training of at least 15 hours a week. Add Travel Credit before boarding to receive the 50% fare.</p><a href="https://about.leapcard.ie/young-adult-and-student-card-launch">Apply for a Leap Card <Arrow /></a><a href="https://www.leapcard.ie/en/NavigationPages/LoginSelection.aspx">Top up Travel Credit <Arrow /></a></aside>
           </div>
           <CarlowTimetable />
         </section>}

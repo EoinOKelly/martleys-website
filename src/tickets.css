@@ -1,3 +1,19 @@
+.ticket-index { min-height: 65vh; background: var(--sky-soft); }
+.ticket-index__shell { padding: 24px 0 clamp(72px, 9vw, 120px); }
+.ticket-index__intro { max-width: 650px; margin: clamp(44px, 7vw, 84px) 0 40px; }
+.ticket-index__intro h1 { margin: 10px 0 18px; }
+.ticket-index__intro > p:last-child { max-width: 52ch; margin: 0; color: var(--muted); font-size: 17px; line-height: 1.65; }
+.ticket-index__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
+.ticket-index__card { display: block; position: relative; min-height: 360px; overflow: hidden; color: var(--white); background: var(--navy); }
+.ticket-index__card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .45s var(--ease); }
+.ticket-index__card-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,21,33,.05) 30%, rgba(6,21,33,.88) 100%); }
+.ticket-index__card-content { display: flex; align-items: center; justify-content: space-between; gap: 24px; position: absolute; inset: auto 0 0; padding: 28px; }
+.ticket-index__card-content strong { font-family: Manrope, Arial, sans-serif; font-size: clamp(25px, 3vw, 36px); line-height: 1.1; }
+.ticket-index__card-arrow { display: grid; place-items: center; width: 48px; height: 48px; flex: 0 0 auto; border: 1px solid rgba(255,255,255,.65); }
+.ticket-index__card-badge { position: absolute; top: 20px; right: 20px; padding: 8px 11px; color: var(--navy); background: var(--white); font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.ticket-index__card:hover img { transform: scale(1.035); }
+.ticket-index__card:hover .ticket-index__card-arrow { color: var(--navy); background: var(--white); }
+
 .tickets-page { background: var(--sky-soft); }
 .tickets-shell { padding: 24px 0 clamp(72px, 9vw, 120px); }
 .ticket-breadcrumb { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 14px; }
@@ -105,6 +121,11 @@
   .ticket-before { grid-template-columns: 1fr; gap: 32px; margin-top: 56px; }
 }
 @media (max-width: 600px) {
+  .ticket-index__shell { padding-top: 12px; padding-bottom: 56px; }
+  .ticket-index__intro { margin: 32px 0 28px; }
+  .ticket-index__grid { grid-template-columns: 1fr; gap: 16px; }
+  .ticket-index__card { min-height: 270px; }
+  .ticket-index__card-content { padding: 22px; }
   .tickets-shell { padding-top: 12px; padding-bottom: 48px; }
   .ticket-layout { gap: 28px; margin-top: 16px; }
   .ticket-story__place { font-size: 14px; }

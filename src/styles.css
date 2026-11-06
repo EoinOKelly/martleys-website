@@ -1304,6 +1304,25 @@ h2,
   min-height: 36px;
 }
 .footer__grid a:hover { color: var(--white); }
+.footer__socials {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.footer__socials a {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(220,239,246,.28);
+  color: var(--white);
+  transition: background-color .2s var(--ease), border-color .2s var(--ease);
+}
+.footer__socials svg { width: 22px; height: 22px; fill: currentColor; }
+.footer__socials svg rect,
+.footer__socials svg circle:not(.footer__social-dot) { fill: none; stroke: currentColor; stroke-width: 1.8; }
+.footer__socials .footer__social-dot { stroke: none; }
+.footer__socials a:hover { background: rgba(220,239,246,.12); border-color: rgba(220,239,246,.55); }
 .footer__bottom {
   display: flex;
   justify-content: space-between;

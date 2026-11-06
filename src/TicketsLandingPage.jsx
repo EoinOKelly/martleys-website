@@ -7,13 +7,13 @@ import './tickets.css';
 // Add another entry here when its booking page is ready.
 const ticketTypes = [
   { title: 'School tickets', image: schoolBusImage, href: '/tickets/school/' },
-  { title: 'Concert tickets', image: concertImage, href: '/tickets/concert/', badge: 'Page preview' },
+  { title: 'Concerts and festivals', image: concertImage, href: '/concerts-events/', badge: 'Travel information' },
 ];
 
 export default function TicketsLandingPage() {
   useEffect(() => {
-    document.title = 'All tickets — Martley’s of Portlaoise';
-    return () => { document.title = 'Martley’s — Reliable coaches. Friendly service.'; };
+    document.title = 'All tickets | Martley’s of Portlaoise';
+    return () => { document.title = 'Martley’s | Reliable coaches. Friendly service.'; };
   }, []);
 
   return (

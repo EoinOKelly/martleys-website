@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { ArrowDown, ArrowRight, Check, Menu, Minus, Plus, Quote, X } from 'lucide-react';
 import './styles.css';
 import TicketPage from './TicketPage';
+import TicketsLandingPage from './TicketsLandingPage';
 import ServicePage, { servicePages } from './ServicePage';
 import Icon from './SiteIcon';
 import passengerImage from './assets/martleys-passengers-live.webp';
@@ -29,17 +30,18 @@ import fleetImage6 from './assets/martleys-fleet-06.webp';
 import fleetImage7 from './assets/martleys-fleet-07.webp';
 
 const routes = [
-  ['821', 'Newbridge — Sallins Rail Station'],
-  ['834', 'Portlaoise — Roscrea'],
-  ['880', 'Carlow — Naas'],
-  ['883', 'Athy — Newbridge'],
-  ['892', 'Dunlavin — Newbridge'],
-  ['2343', 'Borris-in-Ossory — Mount Lucas'],
+  ['821', 'Newbridge to Sallins Rail Station'],
+  ['834', 'Portlaoise to Roscrea'],
+  ['880', 'Carlow to Naas'],
+  ['883', 'Athy to Newbridge'],
+  ['892', 'Dunlavin to Newbridge'],
+  ['2343', 'Borris-in-Ossory to Mount Lucas'],
 ];
 
 const routeTimetables = {
   '821': 'https://www.transportforireland.ie/wp-content/uploads/2024/08/TFI-LL-KSD-R821-V1.pdf',
   '834': 'https://martleys.com/wp-content/uploads/834-Portlaoise-to-Roscrea-4pp-10Feb25-ONLINE.pdf',
+  '880': '/carlow-service/',
   '883': 'https://www.transportforireland.ie/wp-content/uploads/2020/10/newbridgetoathyjune18.pdf',
   '892': 'https://martleys.com/wp-content/uploads/TFI-LL-DSL-R892-FA2-WEB.pdf',
   '2343': 'https://martleys.com/wp-content/uploads/2343-Borris-In-Ossory-to-Mount-Lucas-ONLINE.pdf',
@@ -50,7 +52,7 @@ const services = [
   { title: 'College commute', copy: 'Reliable travel to Carlow colleges for students and commuters.', image: passengerImage, pos: '50% center', href: '/carlow-service/' },
   { title: 'Tours', copy: 'Tours within Ireland, or travel with us to Europe and the UK.', image: heathImage, pos: '60% center', href: '/tours/' },
   { title: 'Public routes', copy: 'Comfortable local connections in partnership with NTA and TFI Local Link.', image: publicRoutesImage, pos: 'center', href: '#routes' },
-  { title: 'Private hire', copy: 'Your group, your plan—from minibuses to a full coach.', image: coachImage, pos: 'center', href: '#private' },
+  { title: 'Private hire', copy: 'Your group, your plan, from minibuses to a full coach.', image: coachImage, pos: 'center', href: '#private' },
   { title: 'Concerts & events', copy: 'Easy rides to Aviva, Croke Park, 3Arena and more.', image: concertsEventsImage, pos: '60% center', href: '/concerts-events/' },
   { title: 'Festival shuttles', copy: 'To and from Electric Picnic, Forest Fest and local festivals.', image: festivalShuttlesImage, pos: '80% center', href: '/festival-shuttles/' },
   { title: 'Accessible travel', copy: 'Wheelchair-adapted coaches so more people can go further.', image: accessibleTravelImage, pos: 'center', href: '/accessible-transport/' },
@@ -81,15 +83,15 @@ const hireTypes = [
 const reviews = [
   {
     quote: 'We booked Martleys for a late night event here, where we needed a shuttle service for corporate guests and friends from our countryside location. We wanted a little flexibility for time and were unsure of seat numbers. From our early conversations in arranging this we felt at ease in Martley’s hands. Our driver arrived early, fully prepared for the unknowns. He waited until the seats were filled and drove everyone to their preferred stop. It was a perfect ending to a great night here for all our guests. Huge thanks Martleys - you took away our concerns and serviced with a simile.',
-    name: 'Gillian Reidy, Director, Designer — Penhouse',
+    name: 'Gillian Reidy, Director and Designer, Penhouse',
   },
   {
     quote: 'HUGE THANK YOU for another fabulous EP experience with your service! Your driver truly is such a gem to work with, and so accommodating. Please pass on our gratitude for taking such great care of the group across the weekend! We had some new additions at the festival this year, and having such a reliable service made the experience seamless for everyone.',
-    name: 'Kaitlin Chandler, Sponsorship and Brand Activation Specialist — Three Ireland',
+    name: 'Kaitlin Chandler, Sponsorship and Brand Activation Specialist, Three Ireland',
   },
   {
     quote: 'On behalf of the Electric Picnic Residents Committee, I just wanted to say a massive thank you to everyone at Martley’s for your incredible help with our Residents’ Social Night. We had originally arranged two buses, but we were absolutely inundated with people on the night and quickly realised we needed another one. When we called looking for help, a third bus arrived within ten minutes, which was absolutely brilliant and very much appreciated. The whole night was a huge success, and having the buses available made such a difference. Your flexibility and willingness to help us at such short notice really helped everything run smoothly. Please pass on our thanks to everyone involved, particularly the drivers. We genuinely appreciate your support and everything you did to help make the night such a success. A massive thank you from all of us!',
-    name: 'Kellie Kearney, Public Relations Officer — Electric Picnic Residents Committee',
+    name: 'Kellie Kearney, Public Relations Officer, Electric Picnic Residents Committee',
   },
   {
     quote: 'Martleys buses provide an excellent friendly and reliable service. I could not recommend them enough.',
@@ -495,7 +497,7 @@ function App() {
       </dialog>
 
       <div className={isHomePage ? 'home-site' : undefined}>
-      {isTicketsSection ? <TicketPage key={`${location.pathname}${location.search}`} initialService={isSchoolTicketPage ? 'school' : isConcertTicketPage ? 'events' : undefined} /> : servicePage ? <ServicePage page={servicePage} onQuote={openQuote} /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
+      {isTicketPage ? <TicketsLandingPage /> : (isSchoolTicketPage || isConcertTicketPage) ? <TicketPage key={`${location.pathname}${location.search}`} initialService={isSchoolTicketPage ? 'school' : 'events'} /> : servicePage ? <ServicePage page={servicePage} onQuote={openQuote} /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
         <section className="intro">
           <div className="shell intro__grid">
             <Reveal>
@@ -521,7 +523,7 @@ function App() {
               <p className="hero__lead">The trusted local travel partner for the Midlands and beyond.</p>
               <div className="hero__actions" ref={heroActions}>
                 <button className="button" type="button" onClick={() => openQuote()}>Get a quote <Arrow /></button>
-                <a className="hero__ticket" href="/tickets/school/"><Icon name="school" /> School tickets</a>
+                <a className="hero__ticket" href="/tickets/"><Icon name="event" /> All tickets</a>
               </div>
             </div>
           </div>
@@ -537,7 +539,7 @@ function App() {
             <div className="welcome__copy">
               <p>
                 Martley’s of Portlaoise is a family-run transport business, established and serving the Midlands for over 60 years.
-                From licensed school routes to private hire, concerts, festivals and accessible coaches—we keep every journey clear, calm and on time.
+                From licensed school routes to private hire, concerts, festivals and accessible coaches, we keep every journey clear, calm and on time.
               </p>
               <a className="inline-link" href="#about">Our story <Arrow /></a>
             </div>
@@ -573,7 +575,7 @@ function App() {
               <img src={schoolBusImage} alt="Red school bus outside a school" loading="lazy" />
             </div>
             <div className="school__copy">
-              <h2 className="h-section">Every school day starts <em>well.</em></h2>
+              <h2 className="h-section">Safe, dependable <em>school bus travel.</em></h2>
               <p>
                 For generations, local families and schools have trusted Martley’s to transport their children safely. We operate daily school runs around Portlaoise and Mountrath, and work directly with teachers and coordinators to tailor transport for school tours and outings, giving parents, teachers and students peace of mind, every day.
               </p>
@@ -588,8 +590,7 @@ function App() {
                 <li><Check aria-hidden="true" />Daily, weekly, term and annual ticket options, with sibling discounts</li>
               </ul>
               <div className="actions">
-                <a className="button" href="https://martleys.com/student-registration/">Register a student <Arrow /></a>
-                <a className="inline-link" href="/tickets/school/">Buy school tickets <Arrow /></a>
+                <a className="button" href="/tickets/school/">Buy school tickets <Arrow /></a>
               </div>
             </div>
           </div>
@@ -606,16 +607,16 @@ function App() {
         <section id="college" className="college">
           <div className="shell college__grid">
             <div className="college__copy">
-              <h2 className="h-section">A better start to <em>your day.</em></h2>
-              <p>We provide a comfortable, reliable and affordable daily commuter service to South East Technological University (SETU), Carlow Institute (CIT) and Carlow College St Patrick’s, with convenient pick-up and drop-off points to suit your schedule. Designed with students and commuters in mind, our service makes the journey stress-free.</p>
+              <h2 className="h-section">Reliable travel to Carlow <em>for work and study.</em></h2>
+              <p>Martley’s provide a comfortable, timely, and affordable daily commuter service to Carlow and Carlow Colleges, with convenient pick-up and drop-off points to suit your schedule. Designed with students and commuters in mind, our service takes the hassle out of your daily travel to get you where you need to be on time.</p>
               <ul className="checklist checklist--single">
-                <li><Check aria-hidden="true" />50% off for eligible Student and Young Adult TFI Leap Card holders</li>
-                <li><Check aria-hidden="true" />Single, return and weekly ticket options</li>
-                <li><Check aria-hidden="true" />Fully RSA compliant buses and drivers</li>
-                <li><Check aria-hidden="true" />Comfortable, clean and regularly serviced vehicles</li>
+                <li><Check aria-hidden="true" />50% off with Student or Young Adult TFI Leap Card</li>
+                <li><Check aria-hidden="true" />Single, Return, and Weekly ticket options</li>
+                <li><Check aria-hidden="true" />Pay directly on the bus with Cash, Credit/Debit card, or topped-up TFI Leap Card</li>
               </ul>
               <div className="actions">
-                <a className="button" href="/carlow-service/">Fares and timetable <Arrow /></a>
+                <a className="button" href="/carlow-service/#carlow-timetable">View timetable <Arrow /></a>
+                <a className="inline-link" href="/carlow-service/">More <Arrow /></a>
               </div>
             </div>
             <div className="college__image">
@@ -627,7 +628,7 @@ function App() {
         <section id="routes" className="routes">
           <div className="shell routes__grid">
             <div className="routes__intro">
-              <h2 className="h-section">Right on<br /><em>your route.</em></h2>
+              <h2 className="h-section">Local public routes<br /><em>Connecting our community.</em></h2>
               <p>We proudly operate a network of public service routes in partnership with the National Transport Authority (NTA) and TFI Local Link.</p>
               <a className="button button--outline" href="https://martleys.com/public-service-routes/">See all timetables <Arrow /></a>
             </div>
@@ -639,7 +640,7 @@ function App() {
                     <a href={routeTimetables[number] || 'https://martleys.com/carlow-to-naas-880/'}>
                       <strong>{number}</strong>
                       <span>{name}</span>
-                      {routeTimetables[number] && <small>PDF timetable</small>}
+                      {number === '880' ? <small>Fares and timetable</small> : routeTimetables[number] && <small>PDF timetable</small>}
                       <Arrow />
                     </a>
                   </li>
@@ -664,7 +665,7 @@ function App() {
           <div className="hire__copy">
             <h2 className="h-section">Big days.<br />Small details.<br /><em>One good journey.</em></h2>
             <p>
-              Corporate travel, weddings, sports clubs, airport transfers, concerts and local festivals—
+              Corporate travel, weddings, sports clubs, airport transfers, concerts and local festivals:
               tell us the destination, dates and numbers, and we’ll shape a clear plan before anyone boards.
             </p>
             <dl className="hire-grid">
@@ -685,7 +686,7 @@ function App() {
               <img src={coachDetailImage} alt="Detail of a Martley's coach" loading="lazy" />
             </div>
             <div className="story__copy">
-              <h2 id="about-title" className="h-section">Proudly local, proudly family run—but it’s our team that <em>gets you there.</em></h2>
+              <h2 id="about-title" className="h-section">Proudly local, proudly family run, but it’s our team that <em>gets you there.</em></h2>
               <p>
                 Martley’s is a family business at heart, but it’s our team that makes every journey happen. Experienced drivers know the roads and routes inside out. Skilled mechanics keep every coach in top condition, day in and day out. Friendly staff are on the other end of the phone, ready to answer your questions.
               </p>
@@ -700,7 +701,7 @@ function App() {
           <div className="shell fleet__head">
             <h2 id="fleet-title" className="h-section">A bus for everyone,<br /><em>however you travel.</em></h2>
             <div className="fleet__intro">
-              <p>Clean, comfortable and well maintained—whatever the occasion, we’ve got a vehicle that fits. From cosy minibuses for small groups to spacious premium coaches for bigger crowds, everyone can travel together.</p>
+              <p>Clean, comfortable and well maintained. Whatever the occasion, we’ve got a vehicle that fits. From cosy minibuses for small groups to spacious premium coaches for bigger crowds, everyone can travel together.</p>
               <button className="button" type="button" onClick={() => openQuote('Private hire')}>Enquire about the fleet <Arrow /></button>
             </div>
           </div>
@@ -749,7 +750,7 @@ function App() {
 
         <section className="trust" aria-labelledby="testimonials-title">
           <div className="shell">
-            <h2 id="testimonials-title" className="h-section">Good journeys, <em>remembered.</em></h2>
+            <h2 id="testimonials-title" className="h-section">What our <em>passengers say.</em></h2>
             <div className="review-grid">
               {otherReviews.map((review) => (
                 <figure key={review.name} className="review"><Review review={review} /></figure>
@@ -790,6 +791,14 @@ function App() {
             <p>Contact</p>
             <a href="tel:+353578620888">057 862 0888</a>
             <a href="mailto:info@martleys.com">info@martleys.com</a>
+            <div className="footer__socials" aria-label="Social media">
+              <a href="https://www.facebook.com/Martleys" target="_blank" rel="noreferrer" aria-label="Martley’s on Facebook">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8h2.75l.41-3.2H13.5V7.76c0-.93.26-1.56 1.59-1.56h1.7V3.34A22.8 22.8 0 0 0 14.31 3C11.86 3 10.18 4.49 10.18 7.23V9.8H7.4V13h2.78v8h3.32Z" /></svg>
+              </a>
+              <a href="https://www.instagram.com/martleys_portlaoise/" target="_blank" rel="noreferrer" aria-label="Martley’s on Instagram">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4.25" /><circle className="footer__social-dot" cx="17.4" cy="6.7" r="1" /></svg>
+              </a>
+            </div>
           </div>
           <div>
             <p>Find us</p>

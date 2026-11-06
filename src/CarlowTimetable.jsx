@@ -5,7 +5,7 @@ import returnImage from './assets/carlow-timetable-return.jpg';
 
 // Stop names, IDs and times transcribed from Martley's timetable updated 9 September 2026.
 const outbound = `
-Mountmellick|Square|131562|7:10|11:25|—
+Mountmellick|Square|131562|7:10|11:25|-
 Portlaoise|Fairgreen, Glencrean Crescent|160211|7:15|11:30|15:10
 Portlaoise|Rossvale|160281|7:22|11:37|15:17
 Portlaoise|Liogard|160291|7:22|11:37|15:17
@@ -98,7 +98,7 @@ export default function CarlowTimetable() {
         </table>
       </div>
       {visibleRows.length === 0 && <p className="carlow-schedule__empty">No stops match that search. Try a town or another stop name.</p>}
-      <p className="carlow-schedule__note">Times are shown in 24-hour format. An em dash means this trip does not serve that stop.</p>
+      <p className="carlow-schedule__note">Times are shown in 24-hour format. A hyphen means this trip does not serve that stop.</p>
     </div>
   );
 }

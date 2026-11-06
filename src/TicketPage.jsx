@@ -100,7 +100,7 @@ export default function TicketPage({ initialService }) {
 
   useEffect(() => {
     const originalTitle = document.title;
-    document.title = 'Buy tickets — Martley’s of Portlaoise';
+    document.title = 'Buy tickets | Martley’s of Portlaoise';
     return () => { document.title = originalTitle; };
   }, []);
 

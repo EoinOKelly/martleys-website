@@ -36,8 +36,8 @@ export default function ConcertTicketPage() {
   const selectedStop = event.stops.find((item) => item.name === stop);
 
   useEffect(() => {
-    document.title = `Concert ticket preview — ${event.artist} | Martley’s`;
-    return () => { document.title = 'Martley’s — Reliable coaches. Friendly service.'; };
+    document.title = `Concert ticket preview | ${event.artist} | Martley’s`;
+    return () => { document.title = 'Martley’s | Reliable coaches. Friendly service.'; };
   }, []);
 
   return (
@@ -101,7 +101,7 @@ export default function ConcertTicketPage() {
               <label htmlFor="concert-date">Concert date</label>
               <select id="concert-date" value={date} onChange={(e) => setDate(e.target.value)}>{event.dates.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select>
               <label htmlFor="concert-stop">Outbound pickup</label>
-              <select id="concert-stop" value={stop} onChange={(e) => setStop(e.target.value)}><option value="">Select a pickup point</option>{event.stops.map((item) => <option key={item.name} value={item.name}>{item.time} · {item.town} — {item.name}</option>)}</select>
+              <select id="concert-stop" value={stop} onChange={(e) => setStop(e.target.value)}><option value="">Select a pickup point</option>{event.stops.map((item) => <option key={item.name} value={item.name}>{item.time} · {item.town}, {item.name}</option>)}</select>
               <label htmlFor="concert-quantity">Passengers</label>
               <select id="concert-quantity" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}>{Array.from({ length: 10 }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1} {index === 0 ? 'passenger' : 'passengers'}</option>)}</select>
             </div>
