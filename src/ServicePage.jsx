@@ -46,16 +46,15 @@ export const servicePages = {
     action: { label: 'Ask about a festival shuttle', type: 'quote', journey: 'Concerts & festivals' },
   },
   '/concerts-events/': {
-    eyebrow: 'Big nights, easy journeys',
+    layout: 'feature',
     title: <>Concerts</>,
     pageTitle: 'Concerts & events',
-    lead: 'Travel together to the show, and leave the drive home to us.',
     image: eventsImage,
     imageAlt: 'Martley’s concert and event coach',
-    intro: 'Keep an eye on our social media pages for announcements of concert buses travelling from Portlaoise and stopping in key locations along the way!',
+    content: [
+      'Keep an eye on our social media pages for announcements of concert buses travelling from Portlaoise and stopping in key locations along the way!',
+    ],
     points: ['Concert buses from Portlaoise', 'Private transport for groups', 'Journey plans tailored to your event'],
-    note: 'Planning an event journey? Send the venue, date, passenger count and preferred pickup point to our team.',
-    action: { label: 'Plan event travel', type: 'quote', journey: 'Concerts & festivals' },
   },
   '/carlow-service/': {
     eyebrow: 'Student & commuter bus',
@@ -73,32 +72,107 @@ export const servicePages = {
 
 function Arrow() { return <ArrowUpRight size={20} strokeWidth={1.7} aria-hidden="true" />; }
 
+function FeatureCopy({ page, className = '' }) {
+  return <div className={className}>
+    <div className="design-copy__prose">{page.content.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+    {page.points?.length > 0 && <ul className="design-copy__points">{page.points.map((point) => <li key={point}>{point}</li>)}</ul>}
+  </div>;
+}
+
+function OptionLabel({ number, children }) {
+  return <header className="design-option__label"><span>{number}</span><h2>{children}</h2></header>;
+}
+
 export default function ServicePage({ page, onQuote }) {
   useEffect(() => {
     document.title = page.pageTitle + ' | Martley’s of Portlaoise';
     return () => { document.title = 'Martley’s | Reliable coaches. Friendly service.'; };
   }, [page]);
   const isCarlow = page === servicePages['/carlow-service/'];
+  const isFeature = page.layout === 'feature';
   return (
     <main id="top" tabIndex="-1" className="service-page">
       <div className="shell service-page__shell">
         <nav className="service-page__breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">{page.pageTitle}</span></nav>
-        <section className="service-page__hero" aria-labelledby="service-title">
-          <div className="service-page__hero-copy">
-            <p className="service-page__eyebrow">{page.eyebrow}</p>
-            <h1 id="service-title" className="h-section">{page.title}</h1>
-            <p className="service-page__lead">{page.lead}</p>
-            {page.action.type === 'quote'
-              ? <button className="button" type="button" onClick={() => onQuote(page.action.journey)}>{page.action.label} <Arrow /></button>
-              : <a className="button" href={page.action.href}>{page.action.label} <Arrow /></a>}
+        {isFeature ? <section className="design-board" aria-labelledby="service-title">
+          <header className="design-board__intro">
+            <p className="service-page__eyebrow">Design comparison</p>
+            <h1 id="service-title" className="h-section">Concert page <em>options.</em></h1>
+            <p>Five different directions using the same title, image and content. Choose the option that feels most like Martley’s.</p>
+          </header>
+
+          <div className="design-board__list">
+            <article className="design-option">
+              <OptionLabel number="01">Split banner</OptionLabel>
+              <div className="design-one">
+                <div className="design-one__hero">
+                  <div className="design-one__title"><h3>{page.title}</h3></div>
+                  <div className="design-one__photo"><img src={page.image} alt={page.imageAlt} /></div>
+                </div>
+                <FeatureCopy page={page} className="design-one__content" />
+              </div>
+            </article>
+
+            <article className="design-option">
+              <OptionLabel number="02">Cinematic overlay</OptionLabel>
+              <div className="design-two">
+                <div className="design-two__hero">
+                  <img src={page.image} alt={page.imageAlt} />
+                  <span aria-hidden="true" />
+                  <h3>{page.title}</h3>
+                </div>
+                <FeatureCopy page={page} className="design-two__content" />
+              </div>
+            </article>
+
+            <article className="design-option">
+              <OptionLabel number="03">Editorial offset</OptionLabel>
+              <div className="design-three">
+                <div className="design-three__heading"><small>Concert travel</small><h3>{page.title}</h3></div>
+                <div className="design-three__body">
+                  <div className="design-three__photo"><img src={page.image} alt={page.imageAlt} /></div>
+                  <FeatureCopy page={page} className="design-three__content" />
+                </div>
+              </div>
+            </article>
+
+            <article className="design-option">
+              <OptionLabel number="04">Gallery feature</OptionLabel>
+              <div className="design-four">
+                <h3>{page.title}</h3>
+                <div className="design-four__photo"><img src={page.image} alt={page.imageAlt} /></div>
+                <FeatureCopy page={page} className="design-four__content" />
+              </div>
+            </article>
+
+            <article className="design-option">
+              <OptionLabel number="05">Modern minimal</OptionLabel>
+              <div className="design-five">
+                <div className="design-five__top">
+                  <h3>{page.title}</h3>
+                  <FeatureCopy page={page} className="design-five__content" />
+                </div>
+                <div className="design-five__photo"><img src={page.image} alt={page.imageAlt} /></div>
+              </div>
+            </article>
           </div>
-          <div className="service-page__photo"><img src={page.image} alt={page.imageAlt} /></div>
-        </section>
-        <section className="service-page__details" aria-label="Service details">
-          <div><p className="service-page__eyebrow">The journey</p><h2 className="h-sub">Travel with <em>confidence.</em></h2><p>{page.intro}</p></div>
-          <div className="service-page__points">{page.points.map((point, index) => <div key={point}><span>0{index + 1}</span><p>{point}</p></div>)}</div>
-        </section>
-        {isCarlow && <section id="carlow-timetable" className="service-page__carlow" aria-labelledby="carlow-title">
+        </section> : <>
+          <section className="service-page__hero" aria-labelledby="service-title">
+            <div className="service-page__hero-copy">
+              <p className="service-page__eyebrow">{page.eyebrow}</p>
+              <h1 id="service-title" className="h-section">{page.title}</h1>
+              <p className="service-page__lead">{page.lead}</p>
+              {page.action.type === 'quote'
+                ? <button className="button" type="button" onClick={() => onQuote(page.action.journey)}>{page.action.label} <Arrow /></button>
+                : <a className="button" href={page.action.href}>{page.action.label} <Arrow /></a>}
+            </div>
+            <div className="service-page__photo"><img src={page.image} alt={page.imageAlt} /></div>
+          </section>
+          <section className="service-page__details" aria-label="Service details">
+            <div><p className="service-page__eyebrow">The journey</p><h2 className="h-sub">Travel with <em>confidence.</em></h2><p>{page.intro}</p></div>
+            <div className="service-page__points">{page.points.map((point, index) => <div key={point}><span>0{index + 1}</span><p>{point}</p></div>)}</div>
+          </section>
+          {isCarlow && <section id="carlow-timetable" className="service-page__carlow" aria-labelledby="carlow-title">
           <div className="service-page__section-head"><p className="service-page__eyebrow">Plan your trip</p><h2 id="carlow-title" className="h-sub">Fares &amp; <em>timetable.</em></h2><p>Monday to Friday service. Timetable updated 9 September 2026. Pay on board; website booking is no longer required.</p></div>
           <div className="service-page__fares">
             <div className="service-page__fare-table"><table><caption>Carlow commuter fares</caption><thead><tr><th scope="col">Ticket</th><th scope="col">Standard</th><th scope="col">Student / Young Adult Leap</th></tr></thead><tbody>
@@ -109,11 +183,12 @@ export default function ServicePage({ page, onQuote }) {
             <aside><strong>Paying with a TFI Leap Card?</strong><p>Young Adult cards are for ages 19–25. Student cards are for those aged 16–18 or 26 and over in full-time education or training of at least 15 hours a week. Add Travel Credit before boarding to receive the 50% fare.</p><a href="https://about.leapcard.ie/young-adult-and-student-card-launch">Apply for a Leap Card <Arrow /></a><a href="https://www.leapcard.ie/en/NavigationPages/LoginSelection.aspx">Top up Travel Credit <Arrow /></a></aside>
           </div>
           <CarlowTimetable />
-        </section>}
-        <aside className="service-page__contact">
-          <div><p className="service-page__eyebrow">Need a hand?</p><h2 className="h-sub">Let’s talk about <em>your journey.</em></h2><p>{page.note}</p></div>
-          <div className="service-page__contact-actions"><a href="tel:+353578620888">057 862 0888 <Arrow /></a><a href="mailto:info@martleys.com">info@martleys.com <Arrow /></a></div>
-        </aside>
+          </section>}
+          <aside className="service-page__contact">
+            <div><p className="service-page__eyebrow">Need a hand?</p><h2 className="h-sub">Let’s talk about <em>your journey.</em></h2><p>{page.note}</p></div>
+            <div className="service-page__contact-actions"><a href="tel:+353578620888">057 862 0888 <Arrow /></a><a href="mailto:info@martleys.com">info@martleys.com <Arrow /></a></div>
+          </aside>
+        </>}
       </div>
     </main>
   );
