@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import accessibleImage from './assets/martleys-accessible-travel.webp';
-import toursImage from './assets/martleys-the-heath-tour.webp';
+import toursImage from './assets/martleys-road-live.jpg';
 import festivalsImage from './assets/martleys-festival-shuttles.webp';
 import eventsImage from './assets/martleys-concerts-events.webp';
 import collegeImage from './assets/martleys-college-commute.webp';

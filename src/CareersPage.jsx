@@ -92,9 +92,7 @@ export default function CareersPage() {
 
         <section className="careers-vacancies" aria-labelledby="vacancies-title">
           <div className="careers-section-heading">
-            <p className="careers-eyebrow">Current opportunities</p>
-            <h2 id="vacancies-title" className="h-sub">Current <em>vacancies.</em></h2>
-            <p>We are growing our team of professional drivers across school, service, tour and day-trip work.</p>
+            <h2 id="vacancies-title" className="h-sub">Current <em>opportunities</em></h2>
           </div>
 
           <div className="careers-vacancy-list">
