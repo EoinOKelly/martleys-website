@@ -10,39 +10,33 @@ import './service-pages.css';
 
 export const servicePages = {
   '/accessible-transport/': {
-    eyebrow: 'Travel for everyone',
-    title: <>Accessible <em>Transport.</em></>,
+    layout: 'feature',
+    title: <>Accessible <em>travel</em></>,
     pageTitle: 'Accessible transport',
-    lead: 'Comfortable group journeys with access planned around every passenger.',
     image: accessibleImage,
     imageAlt: 'A Martley’s accessible coach ready for passengers',
-    intro: 'Martleys is proud to provide a wide range of accessible transport solutions, including specially adapted buses with wheelchair lifts and secure tie-downs that can accommodate up to 11 wheelchair users each, along with additional standard seating. Our fleet of accessible minibuses, buses and coaches is designed to cater to groups of all sizes, with flexible seating configurations ensuring that everyone can travel comfortably and safely. Whether you’re joining us for a scenic tour or arranging private, door-to-door group travel, we aim to make every travel experience seamless, enjoyable, and barrier-free.',
+    content: ['Martleys is proud to provide a wide range of accessible transport solutions, including specially adapted buses with wheelchair lifts and secure tie-downs that can accommodate up to 11 wheelchair users each, along with additional standard seating. Our fleet of accessible minibuses, buses and coaches is designed to cater to groups of all sizes, with flexible seating configurations ensuring that everyone can travel comfortably and safely. Whether you’re joining us for a scenic tour or arranging private, door-to-door group travel, we aim to make every travel experience seamless, enjoyable, and barrier-free.'],
     points: ['Wheelchair lifts and secure tie-downs', 'Up to 11 wheelchair spaces on selected vehicles', 'Flexible seating for groups and tours'],
-    note: 'Tell us about your group, journey and access needs so we can recommend the right vehicle and plan a comfortable trip.',
     action: { label: 'Ask about accessible travel', type: 'quote', journey: 'Accessible travel' },
   },
   '/tours/': {
-    eyebrow: 'Explore together',
+    layout: 'feature',
     title: <>Tours</>,
     pageTitle: 'Tours',
-    lead: 'A great day out starts with a journey everyone can enjoy.',
     image: toursImage,
     imageAlt: 'Martley’s coach on a scenic tour',
-    intro: 'Martley’s offers luxury coach hire for guided tours, group holidays, and custom excursions across Ireland, the UK, and continental Europe. Whether you’re organising a multi-day scenic adventure along Ireland’s Wild Atlantic Way, an educational school trip through the UK, or an extended holiday tour into Europe, our modern fleet of 16- to 63-seat coaches delivers exceptional comfort, reliability, and safety. Driven by our team of experienced professional drivers, we handle every detail of your transport so your group can sit back, relax, and focus entirely on creating unforgettable memories along the way.',
+    content: ['Martley’s offers luxury coach hire for guided tours, group holidays, and custom excursions across Ireland, the UK, and continental Europe. Whether you’re organising a multi-day scenic adventure along Ireland’s Wild Atlantic Way, an educational school trip through the UK, or an extended holiday tour into Europe, our modern fleet of 16- to 63-seat coaches delivers exceptional comfort, reliability, and safety. Driven by our team of experienced professional drivers, we handle every detail of your transport so your group can sit back, relax, and focus entirely on creating unforgettable memories along the way.'],
     points: ['Day trips and longer tours', 'Group travel shaped around your itinerary', 'A range of minibuses and coaches'],
-    note: 'Planning a school outing, club trip or group holiday? We can help you choose the right vehicle and schedule.',
     action: { label: 'Plan a tour', type: 'quote', journey: 'Tours' },
   },
   '/festival-shuttles/': {
-    eyebrow: 'Festival travel',
-    title: <>Let the good times <em>roll.</em></>,
+    layout: 'feature',
+    title: <>Festival <em>shuttles</em></>,
     pageTitle: 'Festival shuttles',
-    lead: 'Leave the parking behind and enjoy the journey there and back.',
     image: festivalsImage,
     imageAlt: 'Festival shuttle passengers travelling together',
-    intro: 'Martley’s runs shuttles to Electric Picnic, Forest Fest and The Greenfields Festival from Portlaoise, with selected routes from other locations. Services offer return journeys during the event so you can enjoy the day without worrying about parking or driving home. Pickup points, schedules and tickets vary by festival.',
+    content: ['Martley’s runs shuttles to Electric Picnic, Forest Fest and The Greenfields Festival from Portlaoise, with selected routes from other locations. Services offer return journeys during the event so you can enjoy the day without worrying about parking or driving home. Pickup points, schedules and tickets vary by festival.'],
     points: ['Electric Picnic, Forest Fest and Greenfields', 'Routes from Portlaoise and selected other locations', 'Festival shuttles for organisers'],
-    note: 'Organising a festival or need a shuttle for your group? Tell us the location, dates and expected passenger numbers.',
     action: { label: 'Ask about a festival shuttle', type: 'quote', journey: 'Concerts & festivals' },
   },
   '/concerts-events/': {
@@ -72,10 +66,15 @@ export const servicePages = {
 
 function Arrow() { return <ArrowUpRight size={20} strokeWidth={1.7} aria-hidden="true" />; }
 
-function FeatureCopy({ page, className = '' }) {
+function FeatureCopy({ page, onQuote, className = '' }) {
   return <div className={className}>
     <div className="feature-copy__prose">{page.content.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
-    {page.points?.length > 0 && <ul className="feature-copy__points">{page.points.map((point) => <li key={point}>{point}</li>)}</ul>}
+    <div className="feature-copy__aside">
+      {page.points?.length > 0 && <ul className="feature-copy__points">{page.points.map((point) => <li key={point}>{point}</li>)}</ul>}
+      {page.action && (page.action.type === 'quote'
+        ? <button className="button feature-copy__action" type="button" onClick={() => onQuote(page.action.journey)}>{page.action.label} <Arrow /></button>
+        : <a className="button feature-copy__action" href={page.action.href}>{page.action.label} <Arrow /></a>)}
+    </div>
   </div>;
 }
 
@@ -90,13 +89,13 @@ export default function ServicePage({ page, onQuote }) {
     <main id="top" tabIndex="-1" className="service-page">
       <div className="shell service-page__shell">
         <nav className="service-page__breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">{page.pageTitle}</span></nav>
-        {isFeature ? <section className="concert-feature" aria-labelledby="service-title">
-          <div className="concert-feature__hero">
+        {isFeature ? <section className="service-feature" aria-labelledby="service-title">
+          <div className="service-feature__hero">
             <img src={page.image} alt={page.imageAlt} />
             <span aria-hidden="true" />
             <h1 id="service-title">{page.title}</h1>
           </div>
-          <FeatureCopy page={page} className="concert-feature__content" />
+          <FeatureCopy page={page} onQuote={onQuote} className="service-feature__content" />
         </section> : <>
           <section className="service-page__hero" aria-labelledby="service-title">
             <div className="service-page__hero-copy">

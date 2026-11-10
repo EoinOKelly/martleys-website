@@ -5,6 +5,7 @@ import { ArrowDown, ArrowRight, Check, Menu, Minus, Plus, Quote, X } from 'lucid
 import './styles.css';
 import TicketPage from './TicketPage';
 import TicketsLandingPage from './TicketsLandingPage';
+import CareersPage from './CareersPage';
 import ServicePage, { servicePages } from './ServicePage';
 import Icon from './SiteIcon';
 import passengerImage from './assets/martleys-passengers-live.webp';
@@ -497,19 +498,7 @@ function App() {
       </dialog>
 
       <div className={isHomePage ? 'home-site' : undefined}>
-      {isTicketPage ? <TicketsLandingPage /> : (isSchoolTicketPage || isConcertTicketPage) ? <TicketPage key={`${location.pathname}${location.search}`} initialService={isSchoolTicketPage ? 'school' : 'events'} /> : servicePage ? <ServicePage page={servicePage} onQuote={openQuote} /> : isCareersPage ? <main id="top" tabIndex="-1" className="careers-page">
-        <section className="intro">
-          <div className="shell intro__grid">
-            <Reveal>
-              <h1 className="h-section">Come work with <em>Martley’s.</em></h1>
-            </Reveal>
-            <Reveal delay={80}>
-              <p>Interested in joining our team? Send us a note with a little about yourself and the kind of work you’re looking for.</p>
-              <a className="button" href="mailto:info@martleys.com?subject=Careers%20enquiry">Make a careers enquiry <Arrow /></a>
-            </Reveal>
-          </div>
-        </section>
-      </main> : <main id="top" tabIndex="-1" className="home">
+      {isTicketPage ? <TicketsLandingPage /> : (isSchoolTicketPage || isConcertTicketPage) ? <TicketPage key={`${location.pathname}${location.search}`} initialService={isSchoolTicketPage ? 'school' : 'events'} /> : servicePage ? <ServicePage page={servicePage} onQuote={openQuote} /> : isCareersPage ? <CareersPage /> : <main id="top" tabIndex="-1" className="home">
         <section className="hero">
           <video className="hero__image" poster={countrysideCoachImage} autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
             <source src={homeVideoSmall} type="video/mp4" media="(max-width: 740px)" />
