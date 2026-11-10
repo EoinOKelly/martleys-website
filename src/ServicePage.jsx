@@ -47,7 +47,7 @@ export const servicePages = {
   },
   '/concerts-events/': {
     layout: 'feature',
-    title: <>Concerts</>,
+    title: <>Concerts <em>&amp; events</em></>,
     pageTitle: 'Concerts & events',
     image: eventsImage,
     imageAlt: 'Martley’s concert and event coach',
@@ -74,13 +74,9 @@ function Arrow() { return <ArrowUpRight size={20} strokeWidth={1.7} aria-hidden=
 
 function FeatureCopy({ page, className = '' }) {
   return <div className={className}>
-    <div className="design-copy__prose">{page.content.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
-    {page.points?.length > 0 && <ul className="design-copy__points">{page.points.map((point) => <li key={point}>{point}</li>)}</ul>}
+    <div className="feature-copy__prose">{page.content.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+    {page.points?.length > 0 && <ul className="feature-copy__points">{page.points.map((point) => <li key={point}>{point}</li>)}</ul>}
   </div>;
-}
-
-function OptionLabel({ number, children }) {
-  return <header className="design-option__label"><span>{number}</span><h2>{children}</h2></header>;
 }
 
 export default function ServicePage({ page, onQuote }) {
@@ -94,68 +90,13 @@ export default function ServicePage({ page, onQuote }) {
     <main id="top" tabIndex="-1" className="service-page">
       <div className="shell service-page__shell">
         <nav className="service-page__breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">{page.pageTitle}</span></nav>
-        {isFeature ? <section className="design-board" aria-labelledby="service-title">
-          <header className="design-board__intro">
-            <p className="service-page__eyebrow">Design comparison</p>
-            <h1 id="service-title" className="h-section">Concert page <em>options.</em></h1>
-            <p>Five different directions using the same title, image and content. Choose the option that feels most like Martley’s.</p>
-          </header>
-
-          <div className="design-board__list">
-            <article className="design-option">
-              <OptionLabel number="01">Split banner</OptionLabel>
-              <div className="design-one">
-                <div className="design-one__hero">
-                  <div className="design-one__title"><h3>{page.title}</h3></div>
-                  <div className="design-one__photo"><img src={page.image} alt={page.imageAlt} /></div>
-                </div>
-                <FeatureCopy page={page} className="design-one__content" />
-              </div>
-            </article>
-
-            <article className="design-option">
-              <OptionLabel number="02">Cinematic overlay</OptionLabel>
-              <div className="design-two">
-                <div className="design-two__hero">
-                  <img src={page.image} alt={page.imageAlt} />
-                  <span aria-hidden="true" />
-                  <h3>{page.title}</h3>
-                </div>
-                <FeatureCopy page={page} className="design-two__content" />
-              </div>
-            </article>
-
-            <article className="design-option">
-              <OptionLabel number="03">Editorial offset</OptionLabel>
-              <div className="design-three">
-                <div className="design-three__heading"><small>Concert travel</small><h3>{page.title}</h3></div>
-                <div className="design-three__body">
-                  <div className="design-three__photo"><img src={page.image} alt={page.imageAlt} /></div>
-                  <FeatureCopy page={page} className="design-three__content" />
-                </div>
-              </div>
-            </article>
-
-            <article className="design-option">
-              <OptionLabel number="04">Gallery feature</OptionLabel>
-              <div className="design-four">
-                <h3>{page.title}</h3>
-                <div className="design-four__photo"><img src={page.image} alt={page.imageAlt} /></div>
-                <FeatureCopy page={page} className="design-four__content" />
-              </div>
-            </article>
-
-            <article className="design-option">
-              <OptionLabel number="05">Modern minimal</OptionLabel>
-              <div className="design-five">
-                <div className="design-five__top">
-                  <h3>{page.title}</h3>
-                  <FeatureCopy page={page} className="design-five__content" />
-                </div>
-                <div className="design-five__photo"><img src={page.image} alt={page.imageAlt} /></div>
-              </div>
-            </article>
+        {isFeature ? <section className="concert-feature" aria-labelledby="service-title">
+          <div className="concert-feature__hero">
+            <img src={page.image} alt={page.imageAlt} />
+            <span aria-hidden="true" />
+            <h1 id="service-title">{page.title}</h1>
           </div>
+          <FeatureCopy page={page} className="concert-feature__content" />
         </section> : <>
           <section className="service-page__hero" aria-labelledby="service-title">
             <div className="service-page__hero-copy">
